@@ -1,6 +1,6 @@
-//#pragma once
-//#ifndef SHIP_H
-//#define SHIP_H
+#pragma once
+#ifndef SHIP_H
+#define SHIP_H
 
 #include "entity.h"
 #include <allegro.h>

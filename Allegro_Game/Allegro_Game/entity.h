@@ -1,6 +1,6 @@
-//#pragma once
-//#ifndef ENTITY_H
-//#define ENTITY_H
+#pragma once
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <allegro.h>
 
@@ -21,6 +21,6 @@ public:
 	int getDirection();
 	int getX();
 	int getY();
-}
+};
 
 #endif

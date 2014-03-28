@@ -13,10 +13,10 @@ Ship::Ship(std::string path, int startX, int startY, int rotation, int startHeal
 	Ship::health = startHealth;
 	Ship::speed = maxSpeed;
 	Ship::weaponType = startWeaponType;
-	Ship:: direction = 0;
+	Ship::direction = 0;
 }
 
-void Entity::movePos(int newX, int newY)
+/*void Entity::movePos(int newX, int newY)
 {
 	x = newX;
 	y = newY;
@@ -28,18 +28,18 @@ int Entity::rotate(int rotation)
 
 	return direction;
 }
-
+*/
 int Ship::getSpeed()
 {
 	return speed;
 }
 
-int Entity::hit(int damage)
+/*int Entity::hit(int damage)
 {
 	health -= damage;
 
 	return health;
-}
+}*/
 
 BITMAP Ship::getSprite()
 {

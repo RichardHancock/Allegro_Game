@@ -22,6 +22,8 @@ int Entity::hit(int damage)
 
 	return health;
 }
+
+
 int Entity::getHealth()
 {
 	return health;

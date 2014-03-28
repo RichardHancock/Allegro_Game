@@ -1,6 +1,6 @@
 #include <allegro.h>
 #include <vector>
-//#include "bullet.h"
+#include "bullet.h"
 
 
 //helpful Web http://www.cs.bu.edu/teaching/cpp/inheritance/intro/
