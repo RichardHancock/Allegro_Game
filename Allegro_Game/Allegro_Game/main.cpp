@@ -2,6 +2,8 @@
 #include <vector>
 #include "bullet.h"
 
+//helpful Web http://www.cs.bu.edu/teaching/cpp/inheritance/intro/
+
 BITMAP *buffer;
 BITMAP *playerShip;
 BITMAP *enemyShip;
@@ -101,21 +103,24 @@ void checkKeyboard()
 	{
 		ship_x += speed;
 	}
+
+	//ROTATION (NEEDS WORK)
 	if (key[KEY_Q])
 	{
 		direction -= 1;
 		if (direction < 0) {
-			direction = 256;
+			direction = 7;
 		}
 		//rotate left
 	}
 	if (key[KEY_E])
 	{
 		direction += 1;
-		if (direction > 256) {
+		if (direction > 7) {
 			direction = 0;
 		}
 		//rotate right
+		rotate_sprite(buffer, playerShip, ship_x, ship_y, 256 / direction); //PROBABLY BROKEN
 	}
 }
 
@@ -124,7 +129,7 @@ void checkFire()
 	if (key[KEY_SPACE])
 	{
 		//Fire
-		bullets.push_back(Bullet(ship_x + playerShip->w / 2,ship_y));
+		bullets.push_back(Bullet(ship_x + playerShip->w / 2,ship_y, 0/*TEMP*/));
 	}
 }
 

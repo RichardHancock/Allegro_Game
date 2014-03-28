@@ -9,9 +9,11 @@ class Bullet
 private:
 	int x;
 	int y;
+	int direction;
 public:
-	Bullet(int, int);
+	Bullet(int, int, int);
 	void movePos(int, int);
+	void rotate(int);
 	int getX();
 	int getY();
 };
