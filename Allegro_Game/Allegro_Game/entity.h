@@ -1,3 +1,7 @@
+//#pragma once
+//#ifndef ENTITY_H
+//#define ENTITY_H
+
 #include <allegro.h>
 
 class Entity
@@ -8,7 +12,7 @@ protected:
 	int direction;
 	int health;
 public:
-	//Entity(int,int,int,int);
+	Entity(int,int,int,int);
 	~Entity();
 	int rotate(int);
 	void movePos(int, int);
@@ -18,3 +22,5 @@ public:
 	int getX();
 	int getY();
 }
+
+#endif

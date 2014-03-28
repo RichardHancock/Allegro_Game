@@ -1,12 +1,12 @@
-#pragma once
-#ifndef SHIP_H
-#define SHIP_H
+//#pragma once
+//#ifndef SHIP_H
+//#define SHIP_H
 
 #include "entity.h"
 #include <allegro.h>
 #include <string>
 
-class Ship :: public Entity
+class Ship : public Entity
 {
 private:
 	//int x;
@@ -17,7 +17,7 @@ private:
 	BITMAP *sprite;
 	short weaponType;
 public:
-	Ship(std::string, int, int, int, int, short);
+	Ship(std::string, int, int, int, int, int, short);
 
 	~Ship();
 

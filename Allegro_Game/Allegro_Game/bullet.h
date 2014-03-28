@@ -1,6 +1,6 @@
-#pragma once
-#ifndef SHIP_H
-#define SHIP_H
+//#pragma once
+//#ifndef BULLET_H
+//#define BULLET_H
 
 #include <allegro.h>
 

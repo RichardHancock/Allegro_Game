@@ -1,7 +1,11 @@
-#include "Entity.h"
+#include "entity.h"
 #include <allegro.h>
 
 
+Entity::Entity(int x, int y, int direction, int health)
+{
+	
+}
 int Entity::rotate(int rotation)
 {
 	direction = rotation;

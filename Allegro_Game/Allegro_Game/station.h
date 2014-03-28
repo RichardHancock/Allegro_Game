@@ -1,3 +1,7 @@
+#pragma once
+//#ifndef STATION_H
+//#define STATION_H
+
 #include <allegro.h>
 #include <string>
 
@@ -13,3 +17,5 @@ public:
 	std::string getName();
 
 };
+
+#endif
