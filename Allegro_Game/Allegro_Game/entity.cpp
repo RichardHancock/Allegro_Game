@@ -2,10 +2,15 @@
 #include <allegro.h>
 
 
-Entity::Entity(int x, int y, int direction, int health)
+Entity::Entity(int startX, int startY, int startRotation, int startHealth)
 {
 	
 }
+Entity::~Entity()
+{
+
+}
+
 int Entity::rotate(int rotation)
 {
 	direction = rotation;

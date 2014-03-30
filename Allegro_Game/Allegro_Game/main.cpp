@@ -50,7 +50,6 @@ int main()
 	{
 		clear_to_color(buffer, makecol(0,0,0));
 
-
 		rotate_sprite(buffer, playerShip,ship_x,ship_y,direction);
 		draw_sprite(buffer, playerShip, ship_x, ship_y);
 		// draw collision bounding box
@@ -76,6 +75,11 @@ int main()
 	return 0;
 }
 END_OF_MAIN();
+
+void rotate()
+{
+
+}
 
 void score(int pointsToAdd)
 {
@@ -121,7 +125,7 @@ void checkKeyboard()
 			direction = 0;
 		}
 		//rotate right
-		rotate_sprite(buffer, playerShip, ship_x, ship_y, 256 / direction); //PROBABLY BROKEN
+		//rotate_sprite(buffer, playerShip, ship_x, ship_y, 256 / direction); //BROKEN (divide by 0)
 	}
 }
 
@@ -130,7 +134,7 @@ void checkFire()
 	if (key[KEY_SPACE])
 	{
 		//Fire
-		bullets.push_back(Bullet(ship_x + playerShip->w / 2,ship_y, 0/*TEMP*/));
+		bullets.push_back(Bullet(ship_x + playerShip->w / 2,ship_y, 0/*TEMP*/,1));
 	}
 }
 

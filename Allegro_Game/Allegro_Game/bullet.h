@@ -2,6 +2,7 @@
 #ifndef BULLET_H
 #define BULLET_H
 
+#include "entity.h"
 #include <allegro.h>
 
 class Bullet : public Entity
@@ -11,7 +12,7 @@ private:
 	//int y;
 	//int direction;
 public:
-	Bullet(int, int, int) : ;
+	Bullet(int, int, int, int);
 	//void movePos(int, int);
 	//void rotate(int);
 	//int getX();
