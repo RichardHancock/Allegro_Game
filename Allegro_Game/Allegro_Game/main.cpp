@@ -16,6 +16,8 @@ void update();
 void score(int);
 int score();
 
+const int rotationAmount = 256 / 8;
+
 int speed = 2;
 int scoreVar = 0;
 int ship_x = 0;
@@ -78,8 +80,12 @@ END_OF_MAIN();
 
 void rotate(int currentDirection, bool clockwise, BITMAP &src, BITMAP &dest)
 {
+
+	//divide the total number of directions by the max rotation (256) and then
+	//either plus or minus the amount to rotate
 	switch (currentDirection)
 	{
+	case 0:
 
 	}
 }
