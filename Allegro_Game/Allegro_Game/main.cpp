@@ -76,9 +76,12 @@ int main()
 }
 END_OF_MAIN();
 
-void rotate()
+void rotate(int currentDirection, bool clockwise, BITMAP &src, BITMAP &dest)
 {
+	switch (currentDirection)
+	{
 
+	}
 }
 
 void score(int pointsToAdd)
