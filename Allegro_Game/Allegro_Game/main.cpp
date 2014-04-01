@@ -1,23 +1,26 @@
 #include <allegro.h>
 #include <vector>
+#include <string>
+#include "entity.h"
 #include "Bullet.h"
 #include "Ship.h"
+
 
 
 //helpful Web http://www.cs.bu.edu/teaching/cpp/inheritance/intro/
 
 BITMAP *buffer;
-Ship playerShip;
 BITMAP *enemyShip;
 BITMAP *bullet;
-
+Ship playerShip  = Ship("playership.bmp",SCREEN_W / 2,SCREEN_H / 2,100,10,1);
+void rotate(Entity, bool, BITMAP*, BITMAP* );
 void checkKeyboard();
 void checkFire();
 void update();
 void score(int);
 int score();
 
-const int rotationAmount = 256 / 8;
+const int ROTATE_CALC = 256 / 8; // maximum number of degrees divided by number of directions
 
 int speed = 2;
 int scoreVar = 0;
@@ -51,14 +54,15 @@ int main()
 
 	while (!key[KEY_ESC])
 	{
-		playerShip = Ship("playership.bmp",SCREEN_W / 2,SCREEN_H / 2,100,10,1);
+		//playerShip = Ship("playership.bmp",SCREEN_W / 2,SCREEN_H / 2,100,10,1);
 
 		clear_to_color(buffer, makecol(0,0,0));
 
-		rotate_sprite(buffer, &playerShip.getSprite(),ship_x,ship_y,direction);
-		draw_sprite(buffer, &playerShip.getSprite(), ship_x, ship_y);
+		//rotate_sprite(buffer, &playerShip.getSprite(),playerShip.getX(),playerShip.getY(),playerShip.getDirection());
+		draw_sprite(buffer, &playerShip.getSprite(), playerShip.getX(), playerShip.getY());
 		// draw collision bounding box
-		rect(buffer, ship_x, ship_y, ship_x + playerShip.getSprite().w, ship_y+playerShip.getSprite().h, makecol(255,255,255));
+		rect(buffer, playerShip.getX(), playerShip.getY(), playerShip.getX() + playerShip.getSprite().w,
+			playerShip.getY()+playerShip.getSprite().h, makecol(255,255,255));
 		
 		for (int i = 0; i < bullets.size(); i++)
 		{
@@ -91,25 +95,25 @@ void rotate(Entity object, bool clockwise, BITMAP &src, BITMAP &dest)
 	{
 		if (object.getDirection() == 7)
 		{
-			object.rotate(0);
+			object.setDirection(0);
 		}
 		else
 		{
-			object.rotate(object.getDirection() + 1);
+			object.setDirection(true);
 		}
-		rotateDegrees = 256 - (rotationAmount * object.getDirection());
+		rotateDegrees = 256 - (ROTATE_CALC * object.getDirection());
 	}
 	else
 	{
 		if (object.getDirection() == 0)
 		{
-			object.rotate(7);
+			object.setDirection(7);
 		}
 		else
 		{
-			object.rotate(object.getDirection() - 1);
+			object.setDirection(false);
 		}
-		rotateDegrees = 256 - (rotationAmount * object.getDirection());
+		rotateDegrees = 256 - (ROTATE_CALC * object.getDirection());
 		rotateDegrees = -rotateDegrees;
 	}
 
@@ -129,36 +133,34 @@ void checkKeyboard()
 {
 	if (key[KEY_W] || key[KEY_UP])
 	{
-		ship_y -= speed;
+		//ship_y -= speed;
+		playerShip.movePos(0,-speed);
 	}
 	if (key[KEY_S] || key[KEY_DOWN])
 	{
-		ship_y += speed;
+		//ship_y += speed;
+		playerShip.movePos(0,speed);
 	}
 	if (key[KEY_A] || key[KEY_LEFT])
 	{
-		ship_x -= speed;
+		//ship_x -= speed;
+		playerShip.movePos(-speed,0);
 	}
 	if (key[KEY_D] || key[KEY_RIGHT])
 	{
-		ship_x += speed;
+		//ship_x += speed;
+		playerShip.movePos(speed,0);
 	}
 
 	//ROTATION (NEEDS WORK)
 	if (key[KEY_Q])
 	{
-		direction -= 1;
-		if (direction < 0) {
-			direction = 7;
-		}
+		
 		//rotate left
 	}
 	if (key[KEY_E])
 	{
-		direction += 1;
-		if (direction > 7) {
-			direction = 0;
-		}
+		
 		//rotate right
 		//rotate_sprite(buffer, playerShip, ship_x, ship_y, 256 / direction); //BROKEN (divide by 0)
 	}
@@ -169,7 +171,7 @@ void checkFire()
 	if (key[KEY_SPACE])
 	{
 		//Fire
-		bullets.push_back(Bullet(ship_x + playerShip->w / 2,ship_y, 0/*TEMP*/,1));
+		bullets.push_back(Bullet(playerShip.getX() + playerShip.getSprite().w / 2, playerShip.getY(), 0/*TEMP*/,1));
 	}
 }
 

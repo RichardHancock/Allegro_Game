@@ -4,21 +4,36 @@
 
 Entity::Entity(int startX, int startY, int startRotation, int startHealth)
 {
-	
+	x = startX;
+	y = startY;
+	direction = startRotation;
+	health = startHealth;
 }
 Entity::~Entity()
 {
 
 }
 
-void Entity::rotate(int rotation)
+void Entity::setDirection(int rotation)
 {
 	direction = rotation;
 }
-void Entity::movePos(int newX, int newY)
+void Entity::setDirection(bool increment) //if true increment direction, if false take 1 away 
 {
-	x = newX;
-	y = newY;
+	if (increment)
+	{
+		direction++;
+	} 
+	else
+	{
+		direction--;
+	}
+}
+
+void Entity::movePos(int adjustX, int adjustY)
+{
+	x += adjustX;
+	y += adjustY;
 }
 int Entity::hit(int damage)
 {
