@@ -4,8 +4,8 @@
 #include <allegro.h>
 #include <string>
 
-Ship::Ship(std::string path, int startX, int startY, int rotation, int startHealth
-	, int maxSpeed, short startWeaponType) : Entity(startX,startY,rotation,startHealth)
+Ship::Ship(std::string path, int startX, int startY, int startHealth
+	, int maxSpeed, short startWeaponType) : Entity(startX,startY,0,startHealth)
 {
 	sprite = load_bitmap(path.c_str(), NULL);
 	Ship::x = startX;

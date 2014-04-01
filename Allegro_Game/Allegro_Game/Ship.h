@@ -17,7 +17,7 @@ private:
 	BITMAP *sprite;
 	short weaponType;
 public:
-	Ship(std::string, int, int, int, int, int, short);
+	Ship(std::string, int, int, int, int, short);
 
 	~Ship();
 

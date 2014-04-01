@@ -14,7 +14,7 @@ protected:
 public:
 	Entity(int,int,int,int);
 	~Entity();
-	int rotate(int);
+	void rotate(int);
 	void movePos(int, int);
 	int hit(int);
 	int getHealth();

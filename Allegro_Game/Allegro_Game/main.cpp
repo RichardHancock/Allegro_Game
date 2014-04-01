@@ -1,12 +1,13 @@
 #include <allegro.h>
 #include <vector>
-#include "bullet.h"
+#include "Bullet.h"
+#include "Ship.h"
 
 
 //helpful Web http://www.cs.bu.edu/teaching/cpp/inheritance/intro/
 
 BITMAP *buffer;
-BITMAP *playerShip;
+Ship playerShip;
 BITMAP *enemyShip;
 BITMAP *bullet;
 
@@ -41,7 +42,7 @@ int main()
 	ship_x = SCREEN_W / 2;
 	ship_y = SCREEN_H / 2;
 
-	playerShip = load_bitmap("playership.bmp", NULL);
+	//playerShip = load_bitmap("playership.bmp", NULL);
 	buffer = create_bitmap(SCREEN_W,SCREEN_H);
 
 	install_int(checkKeyboard, 10);
@@ -50,6 +51,8 @@ int main()
 
 	while (!key[KEY_ESC])
 	{
+		playerShip = new Ship();
+
 		clear_to_color(buffer, makecol(0,0,0));
 
 		rotate_sprite(buffer, playerShip,ship_x,ship_y,direction);
@@ -70,7 +73,7 @@ int main()
 	}
 	
 	destroy_bitmap(buffer);
-	destroy_bitmap(playerShip);
+	//destroy_bitmap(playerShip);
 	destroy_bitmap(enemyShip);
 	destroy_bitmap(bullet);
 
@@ -78,16 +81,40 @@ int main()
 }
 END_OF_MAIN();
 
-void rotate(int currentDirection, bool clockwise, BITMAP &src, BITMAP &dest)
+void rotate(Entity object, bool clockwise, BITMAP &src, BITMAP &dest)
 {
 
 	//divide the total number of directions by the max rotation (256) and then
 	//either plus or minus the amount to rotate
-	switch (currentDirection)
-	{
-	case 0:
+	int rotateDegrees = 0;
 
+	if (clockwise)
+	{
+		if (object.getDirection() == 7)
+		{
+			object.rotate(0);
+		}
+		else
+		{
+			object.rotate(object.getDirection() + 1);
+		}
+		rotateDegrees = 256 - (rotationAmount * object.getDirection());
 	}
+	else
+	{
+		if (object.getDirection() == 0)
+		{
+			object.rotate(7);
+		}
+		else
+		{
+			object.rotate(object.getDirection() - 1);
+		}
+		rotateDegrees = 256 - (rotationAmount * object.getDirection());
+		rotateDegrees = -rotateDegrees;
+	}
+
+	rotate_sprite(&dest, &src,NULL,NULL, rotateDegrees);
 }
 
 void score(int pointsToAdd)

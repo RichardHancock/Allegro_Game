@@ -11,10 +11,9 @@ Entity::~Entity()
 
 }
 
-int Entity::rotate(int rotation)
+void Entity::rotate(int rotation)
 {
 	direction = rotation;
-	return direction;
 }
 void Entity::movePos(int newX, int newY)
 {
