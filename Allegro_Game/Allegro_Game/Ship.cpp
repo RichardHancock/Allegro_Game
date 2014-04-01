@@ -15,6 +15,10 @@ Ship::Ship(std::string path, int startX, int startY, int startHealth
 	Ship::weaponType = startWeaponType;
 	Ship::direction = 0;
 }
+Ship::~Ship()
+{
+	destroy_bitmap(sprite);
+}
 
 /*void Entity::movePos(int newX, int newY)
 {

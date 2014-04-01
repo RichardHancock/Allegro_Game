@@ -21,9 +21,9 @@ const int rotationAmount = 256 / 8;
 
 int speed = 2;
 int scoreVar = 0;
-int ship_x = 0;
-int ship_y = 0;
-int direction = 0;
+//int ship_x = 0;
+//int ship_y = 0;
+//int direction = 0;
 //int ship_x = 0;
 //int ship_y = 0;
 
@@ -39,8 +39,8 @@ int main()
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
 
-	ship_x = SCREEN_W / 2;
-	ship_y = SCREEN_H / 2;
+	//ship_x = SCREEN_W / 2;
+	//ship_y = SCREEN_H / 2;
 
 	//playerShip = load_bitmap("playership.bmp", NULL);
 	buffer = create_bitmap(SCREEN_W,SCREEN_H);
@@ -51,14 +51,14 @@ int main()
 
 	while (!key[KEY_ESC])
 	{
-		playerShip = new Ship();
+		playerShip = Ship("playership.bmp",SCREEN_W / 2,SCREEN_H / 2,100,10,1);
 
 		clear_to_color(buffer, makecol(0,0,0));
 
-		rotate_sprite(buffer, playerShip,ship_x,ship_y,direction);
-		draw_sprite(buffer, playerShip, ship_x, ship_y);
+		rotate_sprite(buffer, &playerShip.getSprite(),ship_x,ship_y,direction);
+		draw_sprite(buffer, &playerShip.getSprite(), ship_x, ship_y);
 		// draw collision bounding box
-		rect(buffer, ship_x, ship_y, ship_x+playerShip->w, ship_y+playerShip->h, makecol(255,255,255));
+		rect(buffer, ship_x, ship_y, ship_x + playerShip.getSprite().w, ship_y+playerShip.getSprite().h, makecol(255,255,255));
 		
 		for (int i = 0; i < bullets.size(); i++)
 		{
@@ -73,7 +73,6 @@ int main()
 	}
 	
 	destroy_bitmap(buffer);
-	//destroy_bitmap(playerShip);
 	destroy_bitmap(enemyShip);
 	destroy_bitmap(bullet);
 
