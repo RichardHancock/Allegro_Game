@@ -20,7 +20,7 @@ public:
 	Ship(std::string, int, int, int, int, short);
 
 	~Ship();
-
+	
 	//void movePos(int, int);
 
 	//int rotate(int);
@@ -30,7 +30,6 @@ public:
 	//int hit(int);
 
 	BITMAP * getSprite();
-
 	void setSprite(std::string path);
 	
 };

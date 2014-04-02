@@ -20,7 +20,7 @@ Ship::Ship(std::string path, int startX, int startY, int startHealth
 	//Ship::health = startHealth;
 	Ship::speed = maxSpeed;
 	Ship::weaponType = startWeaponType;
-	Ship::direction = 0;
+	Entity::direction = 0;
 }
 Ship::~Ship()
 {
@@ -56,7 +56,6 @@ BITMAP * Ship::getSprite()
 {
 	return sprite;
 }
-
 void Ship::setSprite(std::string path)
 {
 	sprite = load_bitmap(path.c_str(), NULL);

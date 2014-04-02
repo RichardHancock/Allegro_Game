@@ -13,14 +13,15 @@ BITMAP *buffer;
 BITMAP *enemyShip;
 BITMAP *bullet;
 Ship *playerShip;// = Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
-void rotate(Entity, bool, BITMAP*, BITMAP* );
+void rotate(bool, BITMAP*, BITMAP* );
 void checkKeyboard();
 void checkFire();
+void checkRotate();
 void update();
 void score(int);
 int score();
 
-const int ROTATE_CALC = 256 / 8; // maximum number of degrees divided by number of directions
+//const int ROTATE_CALC = 256 / 8; // maximum number of degrees divided by number of directions
 
 int speed = 2;
 int scoreVar = 0;
@@ -41,7 +42,7 @@ int main()
 
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
-	*playerShip = Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
+	playerShip = new Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
 	//ship_x = SCREEN_W / 2;
 	//ship_y = SCREEN_H / 2;
 
@@ -50,19 +51,22 @@ int main()
 
 	install_int(checkKeyboard, 10);
 	install_int(checkFire, 300);
-	install_int(update, 100);
+	install_int(checkRotate, 75);
 
 	while (!key[KEY_ESC])
 	{
 		//*playerShip = Ship("*playerShip.bmp",SCREEN_W / 2,SCREEN_H / 2,100,10,1);
 
-		clear_to_color(buffer, makecol(0,0,0));
+		//clear_to_color(buffer, makecol(0,0,0));
 
-		//rotate_sprite(buffer, &*playerShip.getSprite(),*playerShip.getX(),*playerShip.getY(),*playerShip.getDirection());
-		draw_sprite(buffer, playerShip.getSprite(), *playerShip.getX(), *playerShip.getY());
+		//rotate_sprite(buffer, playerShip.getSprite(),playerShip.getX(),playerShip.getY(),playerShip.getDirection());
+		rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
+			itofix(playerShip->getDirection() * 32));
+		//draw_sprite(buffer, playerShip->getSprite(), playerShip->getX(), playerShip->getY());
+		
 		// draw collision bounding box
-		rect(buffer, *playerShip.getX(), *playerShip.getY(), *playerShip.getX() + *playerShip.getSprite()->w,
-			*playerShip.getY()+*playerShip.getSprite()->h, makecol(255,255,255));
+		rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
+			playerShip->getY()+playerShip->getSprite()->h, makecol(255,255,255));
 		
 		for (int i = 0; i < bullets.size(); i++)
 		{
@@ -73,6 +77,7 @@ int main()
 
 		blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 		clear_bitmap(buffer);
+		
 
 	}
 	
@@ -84,40 +89,40 @@ int main()
 }
 END_OF_MAIN();
 
-void rotate(Entity object, bool clockwise, BITMAP &src, BITMAP &dest)
+void rotate(bool clockwise, BITMAP * src, BITMAP * dest)
 {
 
 	//divide the total number of directions by the max rotation (256) and then
 	//either plus or minus the amount to rotate
-	int rotateDegrees = 0;
+	//rotateDegrees = 0;
 
 	if (clockwise)
 	{
-		if (object.getDirection() == 7)
+		if (playerShip->getDirection() == 7)
 		{
-			object.setDirection(0);
+			playerShip->setDirection(0);
 		}
 		else
 		{
-			object.setDirection(true);
+			playerShip->setDirection(true);
 		}
-		rotateDegrees = 256 - (ROTATE_CALC * object.getDirection());
+		//rotateDegrees = 256 - (32 * playerShip->getDirection());
 	}
 	else
 	{
-		if (object.getDirection() == 0)
+		if (playerShip->getDirection() == 0)
 		{
-			object.setDirection(7);
+			playerShip->setDirection(7);
 		}
 		else
 		{
-			object.setDirection(false);
+			playerShip->setDirection(false);
 		}
-		rotateDegrees = 256 - (ROTATE_CALC * object.getDirection());
-		rotateDegrees = -rotateDegrees;
+		//rotateDegrees = 256 - (ROTATE_CALC * playerShip->getDirection());
+		//rotateDegrees = -rotateDegrees;
 	}
 
-	rotate_sprite(&dest, &src,NULL,NULL, rotateDegrees);
+	
 }
 
 void score(int pointsToAdd)
@@ -129,38 +134,40 @@ int score()
 	return scoreVar;
 }
 
-void checkKeyboard(Ship &playerShip)
+void checkKeyboard()
 {
 	if (key[KEY_W] || key[KEY_UP])
 	{
 		//ship_y -= speed;
-		playerShip.movePos(0,-speed);
+		playerShip->movePos(0,-speed);
 	}
 	if (key[KEY_S] || key[KEY_DOWN])
 	{
 		//ship_y += speed;
-		playerShip.movePos(0,speed);
+		playerShip->movePos(0,speed);
 	}
 	if (key[KEY_A] || key[KEY_LEFT])
 	{
 		//ship_x -= speed;
-		playerShip.movePos(-speed,0);
+		playerShip->movePos(-speed,0);
 	}
 	if (key[KEY_D] || key[KEY_RIGHT])
 	{
 		//ship_x += speed;
-		playerShip.movePos(speed,0);
+		playerShip->movePos(speed,0);
 	}
-
+}
+void checkRotate()
+{
 	//ROTATION (NEEDS WORK)
 	if (key[KEY_Q])
 	{
-		
+		rotate(false,playerShip->getSprite(),buffer);
 		//rotate left
 	}
 	if (key[KEY_E])
 	{
-		
+		rotate(true,playerShip->getSprite(),buffer);
 		//rotate right
 		//rotate_sprite(buffer, playerShip, ship_x, ship_y, 256 / direction); //BROKEN (divide by 0)
 	}
@@ -171,7 +178,7 @@ void checkFire()
 	if (key[KEY_SPACE])
 	{
 		//Fire
-		bullets.push_back(Bullet(playerShip.getX() + *playerShip.getSprite()->w / 2, *playerShip.getY(), 0/*TEMP*/,1));
+		bullets.push_back(Bullet(playerShip->getX() + playerShip->getSprite()->w / 2, playerShip->getY(), 0/*TEMP*/,1));
 	}
 }
 
