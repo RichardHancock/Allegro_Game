@@ -7,14 +7,14 @@
 Ship::Ship(std::string path, int startX, int startY, int startHealth
 	, int maxSpeed, short startWeaponType) : Entity(startX,startY,0,startHealth)
 {
-	allegro_message(path.c_str());
-	Ship::sprite = load_bitmap((char*)path.c_str(), NULL);
-	if (!sprite)
+	//allegro_message(path.c_str());
+	Ship::sprite = load_bitmap(/*path.c_str()*/"playership.bmp", NULL);
+	/*if (!sprite)
 	{
 		allegro_message("Bitmap failed");
 	} else {
 		allegro_message("fine");
-	}
+	}*/
 	//Ship::x = startX;
 	//Ship::y = startY;
 	//Ship::health = startHealth;
@@ -52,9 +52,9 @@ int Ship::getSpeed()
 	return health;
 }*/
 
-BITMAP Ship::getSprite()
+BITMAP * Ship::getSprite()
 {
-	return *sprite;
+	return sprite;
 }
 
 void Ship::setSprite(std::string path)

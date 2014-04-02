@@ -29,7 +29,7 @@ public:
 
 	//int hit(int);
 
-	BITMAP getSprite();
+	BITMAP * getSprite();
 
 	void setSprite(std::string path);
 	
