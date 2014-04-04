@@ -13,7 +13,8 @@ BITMAP *buffer;
 BITMAP *enemyShip;
 BITMAP *bullet;
 Ship *playerShip;// = Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
-void rotate(bool, BITMAP*, BITMAP* );
+void rotate4(bool, BITMAP*, BITMAP*);
+void rotate8(bool, BITMAP*, BITMAP*);
 void checkKeyboard();
 void checkFire();
 void checkRotate();
@@ -42,7 +43,7 @@ int main()
 
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
-	playerShip = new Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
+	playerShip = new Ship("ship.bmp",10 / 2,10 / 2,100,10,1);
 	//ship_x = SCREEN_W / 2;
 	//ship_y = SCREEN_H / 2;
 
@@ -61,7 +62,7 @@ int main()
 
 		//rotate_sprite(buffer, playerShip.getSprite(),playerShip.getX(),playerShip.getY(),playerShip.getDirection());
 		rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
-			itofix(playerShip->getDirection() * 32));
+			itofix(playerShip->getDirection() * 64));
 		//draw_sprite(buffer, playerShip->getSprite(), playerShip->getX(), playerShip->getY());
 		
 		// draw collision bounding box
@@ -89,7 +90,33 @@ int main()
 }
 END_OF_MAIN();
 
-void rotate(bool clockwise, BITMAP * src, BITMAP * dest)
+void rotate4(bool clockwise, BITMAP * src, BITMAP * dest)
+{
+	if (clockwise)
+	{
+		if (playerShip->getDirection() == 3)
+		{
+			playerShip->setDirection(0);
+		}
+		else
+		{
+			playerShip->setDirection(true);
+		}
+	}
+	else
+	{
+		if (playerShip->getDirection() == 0)
+		{
+			playerShip->setDirection(3);
+		}
+		else
+		{
+			playerShip->setDirection(false);
+		}
+	}
+}
+
+void rotate8(bool clockwise, BITMAP * src, BITMAP * dest)
 {
 
 	//divide the total number of directions by the max rotation (256) and then
@@ -162,12 +189,12 @@ void checkRotate()
 	//ROTATION (NEEDS WORK)
 	if (key[KEY_Q])
 	{
-		rotate(false,playerShip->getSprite(),buffer);
+		rotate4(false,playerShip->getSprite(),buffer);
 		//rotate left
 	}
 	if (key[KEY_E])
 	{
-		rotate(true,playerShip->getSprite(),buffer);
+		rotate4(true,playerShip->getSprite(),buffer);
 		//rotate right
 		//rotate_sprite(buffer, playerShip, ship_x, ship_y, 256 / direction); //BROKEN (divide by 0)
 	}

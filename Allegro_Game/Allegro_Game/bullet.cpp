@@ -8,8 +8,13 @@ Entity(startX,startY,startRotation,startHealth)
 	y = startY;
 	direction = startRotation;
 	health = startHealth;
+	speed = 10;
 }
 
+void Bullet::launch()
+{
+	//fire in ships direction 
+}
 /*void Bullet::movePos(int moveX, int moveY)
 {
 	x += moveX;

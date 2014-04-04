@@ -11,8 +11,11 @@ private:
 	//int x;
 	//int y;
 	//int direction;
+	int speed;
+	void launch();
 public:
 	Bullet(int, int, int, int);
+	
 	//void movePos(int, int);
 	//void rotate(int);
 	//int getX();
