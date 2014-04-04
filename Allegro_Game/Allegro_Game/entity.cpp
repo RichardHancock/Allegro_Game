@@ -30,10 +30,32 @@ void Entity::setDirection(bool increment) //if true increment direction, if fals
 	}
 }
 
-void Entity::movePos(int adjustX, int adjustY)
+/*void Entity::movePos(int adjustX, int adjustY)
 {
 	x += adjustX;
 	y += adjustY;
+}*/
+void Entity::movePos(int adjustX, int adjustY)
+{
+	switch(direction)
+	{
+	case 0:
+		x += adjustX;
+		y += adjustY;
+		break;
+	case 1:
+		x += adjustY;
+		y += adjustX;
+		break;
+	case 2:
+		x -= adjustY;
+		y += adjustX;
+		break;
+	case 3:
+		x -= adjustX;
+		y -= adjustY;
+		break;
+	}
 }
 int Entity::hit(int damage)
 {

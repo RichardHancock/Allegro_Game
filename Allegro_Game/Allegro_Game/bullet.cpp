@@ -13,6 +13,7 @@ Entity(startX,startY,startRotation,startHealth)
 
 void Bullet::launch()
 {
+	
 	//fire in ships direction 
 }
 /*void Bullet::movePos(int moveX, int moveY)
