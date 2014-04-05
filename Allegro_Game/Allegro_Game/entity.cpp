@@ -35,6 +35,7 @@ void Entity::setDirection(bool increment) //if true increment direction, if fals
 	x += adjustX;
 	y += adjustY;
 }*/
+
 void Entity::movePos(int adjustX, int adjustY)
 {
 	switch(direction)

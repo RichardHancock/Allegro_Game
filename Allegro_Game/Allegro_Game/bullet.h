@@ -12,14 +12,13 @@ private:
 	//int y;
 	//int direction;
 	int speed;
-	void launch();
 public:
 	Bullet(int, int, int, int);
-	
-	//void movePos(int, int);
+	void update();
+	/*void movePos(int, int);
 	//void rotate(int);
 	//int getX();
-	//int getY();
+	//int getY();*/
 };
 
 #endif

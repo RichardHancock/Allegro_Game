@@ -43,7 +43,7 @@ int main()
 
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
-	playerShip = new Ship("ship.bmp",10 / 2,10 / 2,100,10,1);
+	playerShip = new Ship("ship.bmp",10 / 2,10 / 2,100,2,1);
 	//ship_x = SCREEN_W / 2;
 	//ship_y = SCREEN_H / 2;
 
@@ -53,6 +53,7 @@ int main()
 	install_int(checkKeyboard, 10);
 	install_int(checkFire, 300);
 	install_int(checkRotate, 75);
+	install_int(update, 10);
 
 	while (!key[KEY_ESC])
 	{
@@ -166,22 +167,22 @@ void checkKeyboard()
 	if (key[KEY_W] || key[KEY_UP])
 	{
 		//ship_y -= speed;
-		playerShip->movePos(0,-speed);
+		playerShip->movePos('U');
 	}
 	if (key[KEY_S] || key[KEY_DOWN])
 	{
 		//ship_y += speed;
-		playerShip->movePos(0,speed);
+		playerShip->movePos('D');
 	}
 	if (key[KEY_A] || key[KEY_LEFT])
 	{
 		//ship_x -= speed;
-		playerShip->movePos(-speed,0);
+		playerShip->movePos('L');
 	}
 	if (key[KEY_D] || key[KEY_RIGHT])
 	{
 		//ship_x += speed;
-		playerShip->movePos(speed,0);
+		playerShip->movePos('R');
 	}
 }
 void checkRotate()
@@ -205,11 +206,15 @@ void checkFire()
 	if (key[KEY_SPACE])
 	{
 		//Fire
-		bullets.push_back(Bullet(playerShip->getX() + playerShip->getSprite()->w / 2, playerShip->getY(), 0/*TEMP*/,1));
+		bullets.push_back(Bullet(playerShip->getX() + playerShip->getSprite()->w / 2, playerShip->getY(),
+			playerShip->getDirection(),1));
 	}
 }
 
 void update()
 {
-	
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].update();
+	}
 }

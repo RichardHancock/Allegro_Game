@@ -17,6 +17,7 @@ public:
 	void setDirection(int);
 	void setDirection(bool);
 	void movePos(int, int);
+	//void movePos(char);
 	int hit(int);
 	int getHealth();
 	int getDirection();
