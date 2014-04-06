@@ -5,7 +5,7 @@
 #include <string>
 
 Ship::Ship(std::string path, int startX, int startY, int startHealth
-	, int maxSpeed, short startWeaponType) : Entity(startX,startY,0,startHealth)
+	, int maxSpeed, short startWeaponType) : Entity(startX,startY,0,startHealth), SpriteLoader(path)
 {
 
 	//Constants used for sanity purposes
@@ -13,7 +13,7 @@ Ship::Ship(std::string path, int startX, int startY, int startHealth
 	//const int Ship::FACING_RIGHT = 1;
 	//const int Ship::FACING_DOWN = 2;
 	//const int Ship::FACING_LEFT = 3;
-	Ship::sprite = load_bitmap(path.c_str(), NULL);
+	//Ship::sprite = load_bitmap(path.c_str(), NULL);
 	Ship::speed = maxSpeed;
 	Ship::weaponType = startWeaponType;
 	Entity::direction = 0;
@@ -168,7 +168,7 @@ int Ship::getTurretY()
 
 	return health;
 }*/
-
+/*
 BITMAP * Ship::getSprite()
 {
 	return sprite;
@@ -177,3 +177,4 @@ void Ship::setSprite(std::string path)
 {
 	sprite = load_bitmap(path.c_str(), NULL);
 }
+*/

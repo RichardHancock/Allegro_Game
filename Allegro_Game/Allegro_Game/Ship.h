@@ -3,10 +3,11 @@
 #define SHIP_H
 
 #include "entity.h"
+#include "spriteLoader.h"
 #include <allegro.h>
 #include <string>
 
-class Ship : public Entity
+class Ship : public Entity, public SpriteLoader
 {
 private:
 	static const int FACING_UP = 0;
@@ -17,7 +18,6 @@ private:
 	int turretX;
 	int turretY;
 	int speed;
-	BITMAP *sprite;
 	short weaponType;
 	void recalculateTurretPos();
 public:
@@ -36,8 +36,7 @@ public:
 	virtual void setDirection(int);
 	//int hit(int);
 	void movePos(char);
-	BITMAP * getSprite();
-	void setSprite(std::string path);
+	
 	
 };
 #endif

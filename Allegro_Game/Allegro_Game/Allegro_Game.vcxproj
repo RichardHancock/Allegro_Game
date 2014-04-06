@@ -65,14 +65,24 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mine.cpp" />
     <ClCompile Include="ship.cpp" />
+    <ClCompile Include="spriteLoader.cpp" />
     <ClCompile Include="station.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="mine.h" />
     <ClInclude Include="ship.h" />
+    <ClInclude Include="spriteLoader.h" />
     <ClInclude Include="station.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mine.bmp" />
+    <None Include="playership.bmp" />
+    <None Include="playershipBig.bmp" />
+    <None Include="ship.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

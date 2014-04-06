@@ -30,6 +30,12 @@
     <ClCompile Include="station.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="spriteLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h">
@@ -44,5 +50,25 @@
     <ClInclude Include="station.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spriteLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mine.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="playership.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="playershipBig.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ship.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "Bullet.h"
 #include "Ship.h"
+#include "mine.h"
 
 
 
@@ -13,6 +14,7 @@ BITMAP *buffer;
 BITMAP *enemyShip;
 BITMAP *bullet;
 Ship *playerShip;// = Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
+Mine *mines;
 void rotate4(bool, BITMAP*, BITMAP*);
 void rotate8(bool, BITMAP*, BITMAP*);
 void checkKeyboard();
@@ -43,11 +45,8 @@ int main()
 
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
-	playerShip = new Ship("ship.bmp",10 / 2,10 / 2,100,2,1);
-	//ship_x = SCREEN_W / 2;
-	//ship_y = SCREEN_H / 2;
-
-	//*playerShip = load_bitmap("*playerShip.bmp", NULL);
+	playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
+	mines = new Mine("mine.bmp",20,20);
 	buffer = create_bitmap(SCREEN_W,SCREEN_H);
 
 	install_int(checkKeyboard, 10);
@@ -57,19 +56,15 @@ int main()
 
 	while (!key[KEY_ESC])
 	{
-		//*playerShip = Ship("*playerShip.bmp",SCREEN_W / 2,SCREEN_H / 2,100,10,1);
-
-		//clear_to_color(buffer, makecol(0,0,0));
-
-		//rotate_sprite(buffer, playerShip.getSprite(),playerShip.getX(),playerShip.getY(),playerShip.getDirection());
 		rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 			itofix(playerShip->getDirection() * 64));
-		//draw_sprite(buffer, playerShip->getSprite(), playerShip->getX(), playerShip->getY());
 		
 		// draw collision bounding box
 		rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
 			playerShip->getY()+playerShip->getSprite()->h, makecol(255,255,255));
 		
+		draw_sprite(buffer, mines->getSprite(), mines->getX(),mines->getY());
+
 		for (int i = 0; i < bullets.size(); i++)
 		{
 			circle(buffer, bullets[i].getX(), bullets[i].getY(), 3, makecol(255,255,255));
@@ -208,6 +203,7 @@ void checkFire()
 		//Fire
 		bullets.push_back(Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
 			playerShip->getDirection(),1));
+		scoreVar -= 10;
 	}
 }
 
