@@ -52,7 +52,7 @@ int main()
 
 	install_int(checkKeyboard, 10);
 	install_int(checkFire, 300);
-	install_int(checkRotate, 75);
+	install_int(checkRotate, 100);
 	install_int(update, 10);
 
 	while (!key[KEY_ESC])
@@ -206,7 +206,7 @@ void checkFire()
 	if (key[KEY_SPACE])
 	{
 		//Fire
-		bullets.push_back(Bullet(playerShip->getX() + playerShip->getSprite()->w / 2, playerShip->getY(),
+		bullets.push_back(Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
 			playerShip->getDirection(),1));
 	}
 }

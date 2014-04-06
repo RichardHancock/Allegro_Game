@@ -14,8 +14,8 @@ protected:
 public:
 	Entity(int,int,int,int);
 	~Entity();
-	void setDirection(int);
-	void setDirection(bool);
+	virtual void setDirection(int);
+	virtual void setDirection(bool);
 	void movePos(int, int);
 	//void movePos(char);
 	int hit(int);

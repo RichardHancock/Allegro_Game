@@ -13,11 +13,13 @@ Ship::Ship(std::string path, int startX, int startY, int startHealth
 	//const int Ship::FACING_RIGHT = 1;
 	//const int Ship::FACING_DOWN = 2;
 	//const int Ship::FACING_LEFT = 3;
-
 	Ship::sprite = load_bitmap(path.c_str(), NULL);
 	Ship::speed = maxSpeed;
 	Ship::weaponType = startWeaponType;
 	Entity::direction = 0;
+	//Ship::turretX = 0;
+	//Ship::turretY = 0;
+	recalculateTurretPos();
 }
 Ship::~Ship()
 {
@@ -36,19 +38,22 @@ void Ship::recalculateTurretPos()
 		turretY = getY() + (getSprite()->h / 2);
 		break;
 	case FACING_DOWN:
-		
+		turretX = getX() + (getSprite()->w / 2);
+		turretY = getY() + getSprite()->h;
 		break;
 	case FACING_LEFT:
-
+		turretX = getX();
+		turretY = getY() + (getSprite()->h / 2);
 		break;
 	}
 }
 
-void Entity::setDirection(int rotation)
+void Ship::setDirection(int rotation)
 {
 	direction = rotation;
+	recalculateTurretPos();
 }
-void Entity::setDirection(bool increment) //if true increment direction, if false take 1 away 
+void Ship::setDirection(bool increment) //if true increment direction, if false take 1 away 
 {
 	if (increment)
 	{
@@ -58,6 +63,7 @@ void Entity::setDirection(bool increment) //if true increment direction, if fals
 	{
 		direction--;
 	}
+	recalculateTurretPos();
 }
 
 
@@ -138,11 +144,23 @@ void Ship::movePos(char movementDirection)
 			break;
 		}
 	}
+
+	recalculateTurretPos();
 }
 int Ship::getSpeed()
 {
 	return speed;
 }
+
+int Ship::getTurretX()
+{
+	return turretX;
+}
+int Ship::getTurretY()
+{
+	return turretY;
+}
+
 
 /*int Entity::hit(int damage)
 {

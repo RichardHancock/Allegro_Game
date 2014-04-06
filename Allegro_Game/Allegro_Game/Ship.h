@@ -30,7 +30,10 @@ public:
 	//int rotate(int);
 
 	int getSpeed();
-
+	int getTurretX();
+	int getTurretY();
+	virtual void setDirection(bool);
+	virtual void setDirection(int);
 	//int hit(int);
 	void movePos(char);
 	BITMAP * getSprite();
