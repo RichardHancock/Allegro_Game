@@ -12,6 +12,7 @@ private:
 	
 public:
 	Mine(std::string, int, int);
+	~Mine();
 };
 
 #endif

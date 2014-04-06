@@ -11,4 +11,9 @@ Mine::Mine(std::string path, int startX, int startY)
 
 }
 
+Mine::~Mine()
+{
+	destroy_bitmap(sprite);
+}
+
 

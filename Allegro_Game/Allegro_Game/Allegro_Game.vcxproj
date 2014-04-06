@@ -64,7 +64,9 @@
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="mine.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="spriteLoader.cpp" />
@@ -73,6 +75,8 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="mine.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="spriteLoader.h" />
@@ -80,8 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mine.bmp" />
-    <None Include="playership.bmp" />
-    <None Include="playershipBig.bmp" />
     <None Include="ship.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

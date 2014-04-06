@@ -5,35 +5,25 @@
 #include "Bullet.h"
 #include "Ship.h"
 #include "mine.h"
+#include "Game.h"
 
-
-
-//helpful Web http://www.cs.bu.edu/teaching/cpp/inheritance/intro/
-
-BITMAP *buffer;
+/*BITMAP *buffer;
 BITMAP *enemyShip;
 BITMAP *bullet;
-Ship *playerShip;// = Ship("playerShip.bmp",10 / 2,10 / 2,100,10,1);
-Mine *mines;
+Ship *playerShip;
+Mine *mines;*/
 void rotate4(bool, BITMAP*, BITMAP*);
-void rotate8(bool, BITMAP*, BITMAP*);
+//void rotate8(bool, BITMAP*, BITMAP*); old rotate
 void checkKeyboard();
 void checkFire();
 void checkRotate();
 void update();
-void score(int);
-int score();
+/*void score(int);
+int score();*/
+void timer_increment();
 
-//const int ROTATE_CALC = 256 / 8; // maximum number of degrees divided by number of directions
-
-int speed = 2;
+int timer = 0;
 int scoreVar = 0;
-//int ship_x = 0;
-//int ship_y = 0;
-//int direction = 0;
-//int ship_x = 0;
-//int ship_y = 0;
-
 std::vector<Bullet> bullets;
 
 int main()
@@ -45,17 +35,25 @@ int main()
 
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
-	playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
+	/*playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
 	mines = new Mine("mine.bmp",20,20);
-	buffer = create_bitmap(SCREEN_W,SCREEN_H);
+	buffer = create_bitmap(SCREEN_W,SCREEN_H);*/
 
-	install_int(checkKeyboard, 10);
+	install_int_ex(timer_increment, BPS_TO_TIMER(100)); //REFERENCE THIS
+
+	/*install_int(checkKeyboard, 10);
 	install_int(checkFire, 300);
 	install_int(checkRotate, 100);
-	install_int(update, 10);
+	install_int(update, 10);*/
 
 	while (!key[KEY_ESC])
 	{
+
+		//Menu here
+		Game *mainGameLoop = new Game(); //Create the Game class object
+		mainGameLoop->run(); //Start the Game loop
+		
+		/* OLD LOOP
 		rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 			itofix(playerShip->getDirection() * 64));
 		
@@ -74,18 +72,23 @@ int main()
 
 		blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 		clear_bitmap(buffer);
-		
+		*/
 
 	}
-	
+	/*
 	destroy_bitmap(buffer);
 	destroy_bitmap(enemyShip);
 	destroy_bitmap(bullet);
-
+	*/
 	return 0;
 }
 END_OF_MAIN();
 
+void timer_increment()
+{
+	timer++;
+}
+/*
 void rotate4(bool clockwise, BITMAP * src, BITMAP * dest)
 {
 	if (clockwise)
@@ -206,11 +209,4 @@ void checkFire()
 		scoreVar -= 10;
 	}
 }
-
-void update()
-{
-	for (int i = 0; i < bullets.size(); i++)
-	{
-		bullets[i].update();
-	}
-}
+*/
