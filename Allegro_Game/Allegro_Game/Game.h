@@ -4,7 +4,9 @@
 #define GAME_H
 
 #include <allegro.h>
+#include <vector>
 #include "Ship.h"
+#include "bullet.h"
 
 class Game
 {
@@ -14,7 +16,7 @@ private:
 
 	void rotate4(bool, Ship*);
 	void checkKeyboard(Ship*);
-	void checkFire(Ship*);
+	void checkFire(Ship*, std::vector<Bullet> &);
 	void checkRotate(Ship*);
 	void update();
 	/*void score(int);
