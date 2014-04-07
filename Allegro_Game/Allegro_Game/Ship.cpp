@@ -20,6 +20,9 @@ Ship::Ship(std::string path, int startX, int startY, int startHealth
 	//Ship::turretX = 0;
 	//Ship::turretY = 0;
 	recalculateTurretPos();
+
+	width = sprite->w;
+	height = sprite->h;
 }
 Ship::~Ship()
 {

@@ -11,13 +11,15 @@ extern volatile int timer;
 
 Game::Game()
 {
-	Game::xyPos xyPosInst;
+	//Game::xyPos xyPosInst;
 }
 
 int Game::run()
 {
 	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
-	std::vector<Bullet> bullets;
+	std::vector<Bullet*> bullets;
+	std::vector<Mine*> mines;
+	mines.push_back( new Mine("mine.bmp", 45, 45 ));
 	buffer = create_bitmap(SCREEN_W,SCREEN_H);
 	bool endGame = false;
 
@@ -31,9 +33,13 @@ int Game::run()
 
 			for (int i = 0; i < bullets.size(); i++)
 			{
-				bullets[i].update();
+				bullets[i]->update();
 			}
 
+			if (!collisionTest(playerShip,mines[0]))
+			{
+				draw_sprite(buffer, mines[0]->getSprite(), mines[0]->getX(),mines[0]->getY());
+			}
 
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 				itofix(playerShip->getDirection() * 64));
@@ -42,11 +48,11 @@ int Game::run()
 			rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
 				playerShip->getY()+playerShip->getSprite()->h, makecol(255,255,255));
 
-			//draw_sprite(buffer, mines->getSprite(), mines->getX(),mines->getY());
+			
 
 			for (int i = 0; i < bullets.size(); i++)
 			{
-				circle(buffer, bullets[i].getX(), bullets[i].getY(), 3, makecol(255,255,255));
+				circle(buffer, bullets[i]->getX(), bullets[i]->getY(), 3, makecol(255,255,255));
 			}
 
 			if(key[KEY_ESC]) {
@@ -105,11 +111,11 @@ void Game::checkRotate(Ship *playerShip)
 
 }
 
-void Game::checkFire(Ship *playerShip, std::vector<Bullet> &bullets)
+void Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
 {
 	if (key[KEY_SPACE])
 	{
-		bullets.push_back(Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
+		bullets.push_back(new Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
 			playerShip->getDirection(),1));
 		score -= 10;
 	}
@@ -142,7 +148,7 @@ void Game::rotate4(bool clockwise, Ship *playerShip)
 	}
 }
 
-void getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
+void Game::getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
 {
 	/*
 	Diagram of vector index's actual locations 
@@ -186,7 +192,9 @@ void getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
 	
 }
 
-bool collisionTest(Entity *object1, Entity *object2)
+
+// Refer to design documentation for more in depth details on this function
+bool Game::collisionTest(Entity *object1, Entity *object2)
 {
 	//Created a vector array to store the coordinates of the objects.
 	std::vector< std::vector<Game::xyPos> > objVec; //Multi dimensional vector 
@@ -197,7 +205,18 @@ bool collisionTest(Entity *object1, Entity *object2)
 	getFourCorners(object1, objVec[0]);
 	getFourCorners(object2, objVec[1]);
 
-	if ()
+	// X coordinate collision test
+	if (objVec[0][0].x < objVec[1][1].x && 
+		objVec[0][1].x > objVec[1][0].x )
+	{
+		// Y coordinate collision test
+		if (objVec[0][0].y < objVec[1][2].y &&
+			objVec[0][2].y > objVec[1][0].y)
+		{
+			return true;
+		}
+
+	}
 
 	return false;
 }

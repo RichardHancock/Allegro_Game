@@ -13,6 +13,8 @@ private:
 public:
 	Mine(std::string, int, int);
 	~Mine();
+
+	void setSprite(std::string);
 };
 
 #endif
