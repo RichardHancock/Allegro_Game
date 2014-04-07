@@ -11,7 +11,7 @@ extern volatile int timer;
 
 Game::Game()
 {
-	
+	Game::xyPos xyPosInst;
 }
 
 int Game::run()
@@ -142,12 +142,33 @@ void Game::rotate4(bool clockwise, Ship *playerShip)
 	}
 }
 
-void Game::update()
+void getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
 {
 	/*
-	for (int i = 0; i < bullets.size(); i++)
-	{
-		bullets[i].update();
-	}
+	diagram of vector id's actual locations 
+	0-----1
+	|     |
+	|     |
+	|     |
+	2-----3
+	
+	0 - TopLeft
+	1 - TopRight
+	2 - BottomLeft
+	3 - BottomRight
 	*/
+
+	objVec[0];
+}
+
+bool collisionTest(Entity *object1, Entity *object2)
+{
+	std::vector< std::vector<Game::xyPos> > objectVector; //Multi dimensional vector 
+	objectVector.resize(2);
+	objectVector[0].resize(4);
+	objectVector[1].resize(4);
+
+	getFourCorners(object1, objectVector[0]);
+	//std::vector<Game::xyPos> obj2Vec;
+	getFourCorners(object1, objectVector[1]);
 }
