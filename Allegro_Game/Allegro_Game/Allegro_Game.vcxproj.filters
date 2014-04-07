@@ -42,6 +42,9 @@
     <ClCompile Include="MenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScreenState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h">
@@ -68,12 +71,42 @@
     <ClInclude Include="MenuScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScreenState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="mine.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ship.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button1Hover.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button2.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button2Hover.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button3.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button3Hover.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button4.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="button4Hover.bmp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -50,7 +50,7 @@ int main()
 
 			break;
 		case 1:
-			gameResult = mainGameLoop->run(); //Start the Game loop and store return state
+			mainGameLoop->run(); //Start the Game loop and store return state
 			
 			break;
 		case 2:
@@ -58,10 +58,7 @@ int main()
 			break;
 		}
 
-		if (gameResult == 0)
-		{
-			gameEnd = true;
-		}
+		
 
 		//Delete both objects
 		delete mainGameLoop;

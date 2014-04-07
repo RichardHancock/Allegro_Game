@@ -14,12 +14,13 @@ Game::Game()
 	//Game::xyPos xyPosInst;
 }
 
-int Game::run()
+void Game::run()
 {
+	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
 	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
 	std::vector<Bullet*> bullets;
 	std::vector<Mine*> mines;
-	mines.push_back( new Mine("mine.bmp", 45, 45 ));
+	mines.push_back( new Mine("mine.bmp", 45, 45));
 	buffer = create_bitmap(SCREEN_W,SCREEN_H);
 	bool endGame = false;
 
@@ -31,10 +32,13 @@ int Game::run()
 			checkRotate(playerShip);
 			checkFire(playerShip, bullets);
 
+
 			for (int i = 0; i < bullets.size(); i++)
 			{
 				bullets[i]->update();
 			}
+
+			draw_sprite(buffer, bg, 0, 0);
 
 			if (!collisionTest(playerShip,mines[0]))
 			{
@@ -219,4 +223,5 @@ bool Game::collisionTest(Entity *object1, Entity *object2)
 	}
 
 	return false;
+
 }
