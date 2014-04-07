@@ -18,7 +18,7 @@ public:
 	SpriteLoader(std::string);
 
 	BITMAP* getSprite();
-	void setSprite(std::string);
+	virtual void setSprite(std::string);
 };
 
 #endif

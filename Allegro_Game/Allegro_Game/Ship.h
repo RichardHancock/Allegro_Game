@@ -19,6 +19,7 @@ private:
 	int turretY;
 	int speed;
 	short weaponType;
+
 	void recalculateTurretPos();
 public:
 	Ship(std::string, int, int, int, int, short);
@@ -28,7 +29,6 @@ public:
 	//void movePos(int, int);
 
 	//int rotate(int);
-
 	int getSpeed();
 	int getTurretX();
 	int getTurretY();
@@ -36,6 +36,7 @@ public:
 	virtual void setDirection(int);
 	//int hit(int);
 	void movePos(char);
+	virtual void setSprite(std::string);
 	
 	
 };

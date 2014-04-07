@@ -172,9 +172,14 @@ int Ship::getTurretY()
 BITMAP * Ship::getSprite()
 {
 	return sprite;
-}
+}*/
+
 void Ship::setSprite(std::string path)
 {
 	sprite = load_bitmap(path.c_str(), NULL);
+
+	width = sprite->w;
+	height = sprite->h;
+
 }
-*/
+

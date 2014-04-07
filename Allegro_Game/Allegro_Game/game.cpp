@@ -145,30 +145,59 @@ void Game::rotate4(bool clockwise, Ship *playerShip)
 void getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
 {
 	/*
-	diagram of vector id's actual locations 
+	Diagram of vector index's actual locations 
 	0-----1
 	|     |
 	|     |
 	|     |
 	2-----3
-	
-	0 - TopLeft
-	1 - TopRight
-	2 - BottomLeft
-	3 - BottomRight
+
 	*/
 
-	objVec[0];
+	// Fetch objects dimension and coordinates to avoid multiple recalls.
+	int width = object->getWidth();
+	int height = object->getHeight();
+	Game::xyPos origin;
+
+	if (object->isCircle())
+	{
+		//This offsets the x and y coordinate to the top left, rather than the center.
+		origin.x = object->getX() - (width / 2);
+		origin.y = object->getY() - (height / 2);
+	}
+	else
+	{
+		origin.x = object->getX();
+		origin.y = object->getY();
+	}
+
+	//0 - TopLeft
+	objVec[0].x = origin.x;
+	objVec[0].y = origin.y;
+	//1 - TopRight
+	objVec[1].x = origin.x + width;
+	objVec[1].y = origin.y;
+	//2 - BottomLeft
+	objVec[2].x = origin.x;
+	objVec[2].y = origin.y + height;
+	//3 - BottomRight
+	objVec[3].x = origin.x + width;
+	objVec[3].y = origin.y + height;
+	
 }
 
 bool collisionTest(Entity *object1, Entity *object2)
 {
-	std::vector< std::vector<Game::xyPos> > objectVector; //Multi dimensional vector 
-	objectVector.resize(2);
-	objectVector[0].resize(4);
-	objectVector[1].resize(4);
+	//Created a vector array to store the coordinates of the objects.
+	std::vector< std::vector<Game::xyPos> > objVec; //Multi dimensional vector 
+	objVec.resize(2);
+	objVec[0].resize(4);
+	objVec[1].resize(4);
 
-	getFourCorners(object1, objectVector[0]);
-	//std::vector<Game::xyPos> obj2Vec;
-	getFourCorners(object1, objectVector[1]);
+	getFourCorners(object1, objVec[0]);
+	getFourCorners(object2, objVec[1]);
+
+	if ()
+
+	return false;
 }

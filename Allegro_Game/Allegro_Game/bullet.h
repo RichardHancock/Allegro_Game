@@ -15,10 +15,6 @@ private:
 public:
 	Bullet(int, int, int, int);
 	void update();
-	/*void movePos(int, int);
-	//void rotate(int);
-	//int getX();
-	//int getY();*/
 };
 
 #endif

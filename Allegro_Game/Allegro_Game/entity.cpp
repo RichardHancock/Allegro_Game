@@ -8,6 +8,7 @@ Entity::Entity(int startX, int startY, int startRotation, int startHealth)
 	y = startY;
 	direction = startRotation;
 	health = startHealth;
+	isCircleVar = false; //will be overridden when needed
 }
 Entity::~Entity()
 {
@@ -81,4 +82,18 @@ int Entity::getX()
 int Entity::getY()
 {
 	return y;
+}
+
+int Entity::getWidth()
+{
+	return width;
+}
+int Entity::getHeight()
+{
+	return height;
+}
+
+bool Entity::isCircle()
+{
+	return isCircleVar;
 }

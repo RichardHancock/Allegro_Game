@@ -33,7 +33,7 @@ private:
 	void checkFire(Ship*, std::vector<Bullet> &);
 	void checkRotate(Ship*);
 	bool collisionTest(Entity*, Entity*);
-	void getFourCorners(Entity*, std::vector<xyPos);
+	void getFourCorners(Entity*, std::vector<xyPos> &);
 	/*void score(int);
 	int score();*/
 

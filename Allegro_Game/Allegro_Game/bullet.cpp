@@ -9,6 +9,11 @@ Entity(startX,startY,startRotation,startHealth)
 	direction = startRotation;
 	health = startHealth;
 	speed = 4;
+
+	//Because this object doesn't have a sprite I have to manually input width and height.
+	height = 6;
+	width = 6;
+	isCircleVar = true;
 }
 
 void Bullet::update()
