@@ -29,6 +29,7 @@ int main()
 	//mines = new Mine("mine.bmp",20,20);
 
 	install_int_ex(timer_increment, BPS_TO_TIMER(60)); //REFERENCE THIS
+	set_window_title("Star Fire");
 
 	bool gameEnd = false;
 

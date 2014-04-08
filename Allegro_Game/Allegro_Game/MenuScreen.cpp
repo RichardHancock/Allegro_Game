@@ -8,6 +8,7 @@ int MenuScreen::run()
 {
 	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
 	BITMAP* bg = load_bitmap("menuBackground.bmp",NULL);
+	BITMAP* logo = load_bitmap("logo.bmp",NULL);
 	show_os_cursor(MOUSE_CURSOR_ARROW);
 
 	std::vector< std::vector<BITMAP*> > buttons;
@@ -35,6 +36,8 @@ int MenuScreen::run()
 		{
 
 			draw_sprite(buffer, bg, 0, 0);
+
+			draw_sprite(buffer,logo,96,20);
 
 			if (mouse_y > 150 && mouse_y < 200 && mouse_x > 220 && mouse_x < 420)
 			{
@@ -98,5 +101,7 @@ int MenuScreen::run()
 		}
 
 	}
+	destroy_bitmap(bg);
+	destroy_bitmap(logo)
 
 }

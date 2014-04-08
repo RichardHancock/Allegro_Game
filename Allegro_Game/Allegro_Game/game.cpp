@@ -72,7 +72,6 @@ void Game::run()
 	}
 
 	destroy_bitmap(buffer);
-	return 0;
 }
 
 void Game::checkKeyboard(Ship *playerShip)
