@@ -34,8 +34,12 @@ void Game::run()
 	bool endGame = false;
 
 	const int ALLEGRO_RIGHT_ANGLE = 256 / 4;
-	bool g = false;
 
+	//delays
+	bool canFire = true;
+	bool canRotate = true;
+
+	int delay = 0;
 	spawnEnemy(enemyShips);
 
 	while(!endGame)
@@ -43,16 +47,19 @@ void Game::run()
 		while(timer)
 		{
 			checkKeyboard(playerShip);
-			checkRotate(playerShip);
-			checkFire(playerShip, bullets);
-
-			draw_sprite(buffer, bg, 0, 0);
-			//temp
-			if (key[KEY_G])
+			if (canRotate)
 			{
-				
-				g = true;
+				canRotate = checkRotate(playerShip);
 			}
+			
+			if (canFire)
+			{
+				canFire = checkFire(playerShip, bullets);
+			}
+			
+			draw_sprite(buffer, bg, 0, 0);
+		
+			//temp
 			//for(int i = 0; i < enemyShips.size(); i++)
 			if (enemyShips.size() > 0)
 			{
@@ -96,8 +103,17 @@ void Game::run()
 			clear_bitmap(buffer);
 
 			timer--;
+			delay++;
+		}
+		
+		if (delay > 30) 
+		{
+			canFire = true;
+			canRotate = true;
+			delay = 0;
 		}
 	}
+
 
 	destroy_bitmap(buffer);
 }
@@ -166,32 +182,36 @@ void Game::checkKeyboard(Ship *playerShip)
 		playerShip->movePos('R');
 	}
 }
-void Game::checkRotate(Ship *playerShip)
+bool Game::checkRotate(Ship *playerShip)
 {
 	//ROTATION (NEEDS WORK)
 	if (key[KEY_Q])
 	{
 		rotate4(false,playerShip);
 		//rotate left
+		return false;
 	}
 	if (key[KEY_E])
 	{
 		rotate4(true,playerShip);
 		//rotate right
+		return false;
 	}
 	
-
+	return true;
 }
 
-void Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
+bool Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
 {
 	if (key[KEY_SPACE])
 	{
 		bullets.push_back(new Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
 			playerShip->getDirection(),1));
 		score -= 10;
+		return false;
 	}
 	
+	return true;
 }
 
 void Game::rotate4(bool clockwise, Ship *playerShip)

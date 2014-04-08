@@ -34,8 +34,8 @@ private:
 	void spawnEnemy(std::vector<EnemyShip*> &);
 	void rotate4(bool, Ship*);
 	void checkKeyboard(Ship*);
-	void checkFire(Ship*, std::vector<Bullet*> &);
-	void checkRotate(Ship*);
+	bool checkFire(Ship*, std::vector<Bullet*> &);
+	bool checkRotate(Ship*);
 	bool collisionTest(Entity*, Entity*);
 	void getFourCorners(Entity*, std::vector<xyPos> &);
 	int randomNumber(int, int);
