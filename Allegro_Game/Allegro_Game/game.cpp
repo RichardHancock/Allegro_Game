@@ -99,7 +99,7 @@ void Game::spawnEnemy(EnemyShip *object)
 	switch (direction)
 	{
 	case FACING_UP:
-		pos.x = randomNumber(0, SCREEN_W - SAFETY_MARGIN);
+		pos.x = randomNumber(0, SCREEN_W /* - image width*/);
 		pos.y = SCREEN_H
 		break;
 	case FACING_RIGHT:

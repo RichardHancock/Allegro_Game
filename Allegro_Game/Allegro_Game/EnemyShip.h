@@ -11,7 +11,7 @@ class EnemyShip : public Ship
 private:
 
 public:
-	EnemyShip(std::string,int,int,int,int);
+	EnemyShip(std::string,int,int,int,int,int);
 	//~EnemyShip();
 
 	void teleport(int,int);

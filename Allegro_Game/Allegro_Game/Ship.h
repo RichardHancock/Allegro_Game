@@ -21,7 +21,7 @@ protected:
 
 	void recalculateTurretPos();
 public:
-	Ship(std::string, int, int, int, int);
+	Ship(std::string, int, int, int, int, int);
 
 	~Ship();
 	
