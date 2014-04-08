@@ -36,6 +36,9 @@ private:
 	void checkKeyboard(Ship*);
 	bool checkFire(Ship*, std::vector<Bullet*> &);
 	bool checkRotate(Ship*);
+
+	void checkBoundries(Ship*); 
+
 	bool collisionTest(Entity*, Entity*);
 	void getFourCorners(Entity*, std::vector<xyPos> &);
 	int randomNumber(int, int);

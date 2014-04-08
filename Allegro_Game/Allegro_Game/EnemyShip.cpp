@@ -20,8 +20,3 @@ void EnemyShip::update()
 	movePos('U');
 }
 
-void EnemyShip::teleport(int newX, int newY)
-{
-	x = newX;
-	y = newY;
-}

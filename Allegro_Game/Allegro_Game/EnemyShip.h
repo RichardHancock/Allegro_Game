@@ -14,7 +14,7 @@ public:
 	EnemyShip(std::string,int,int,int,int,int);
 	//~EnemyShip();
 
-	void teleport(int,int);
+	
 	void update();
 };
 

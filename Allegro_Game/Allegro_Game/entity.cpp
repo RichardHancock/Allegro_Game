@@ -98,3 +98,9 @@ bool Entity::isCircle()
 {
 	return isCircleVar;
 }
+
+void Entity::teleport(int newX, int newY)
+{
+	x = newX;
+	y = newY;
+}

@@ -80,6 +80,8 @@ void Game::run()
 				draw_sprite(buffer, mines[0]->getSprite(), mines[0]->getX(),mines[0]->getY());
 			}
 
+
+
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 				itofix(playerShip->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
@@ -205,9 +207,17 @@ bool Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
 {
 	if (key[KEY_SPACE])
 	{
+		//remove oldest bullet after 5 other bullets are in memory
+		if (bullets.size() > 7){
+			bullets.erase(bullets.begin());
+		}
+
+		// add new bullet to end of vector
 		bullets.push_back(new Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
 			playerShip->getDirection(),1));
-		score -= 10;
+
+		//Player loses a point, this is to try and deter bullet 'spamming'
+		score -= 1;
 		return false;
 	}
 	
@@ -317,4 +327,15 @@ bool Game::collisionTest(Entity *object1, Entity *object2)
 int Game::randomNumber(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
+}
+
+void Game::checkBoundries(Ship* shipObject)
+{
+	std::vector<xyPos> shipPoints;
+	getFourCorners(shipObject, shipPoints);
+
+	if(shipPoints[0].y < 0)
+	{
+		shipObject->
+	}
 }
