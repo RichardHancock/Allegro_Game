@@ -1,6 +1,8 @@
 #include <allegro.h>
 #include <string>
 #include <vector>
+#include <time.h>
+
 #include "Game.h"
 #include "entity.h"
 #include "Bullet.h"
@@ -16,13 +18,21 @@ Game::Game()
 
 void Game::run()
 {
+
+	srand(time(NULL));
+
 	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
+	buffer = create_bitmap(SCREEN_W,SCREEN_H);
+
 	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
+	
 	std::vector<Bullet*> bullets;
 	std::vector<Mine*> mines;
 	mines.push_back( new Mine("mine.bmp", 45, 45));
-	buffer = create_bitmap(SCREEN_W,SCREEN_H);
+	
 	bool endGame = false;
+
+	const int ALLEGRO_RIGHT_ANGLE = 256 / 4;
 
 	while(!endGame)
 	{
@@ -46,7 +56,7 @@ void Game::run()
 			}
 
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
-				itofix(playerShip->getDirection() * 64));
+				itofix(playerShip->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
 			// draw collision bounding box
 			rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
@@ -72,6 +82,41 @@ void Game::run()
 	}
 
 	destroy_bitmap(buffer);
+}
+
+void Game::spawnEnemy(EnemyShip *object)
+{
+	const int FACING_UP = 0;
+	const int FACING_RIGHT = 1;
+	const int FACING_DOWN = 2;
+	const int FACING_LEFT= 3;
+
+	object = new EnemyShip()
+
+	// Assign a random direction for the ship to spawn from
+	int direction = randomNumber(0,3);
+	xyPos pos;
+	switch (direction)
+	{
+	case FACING_UP:
+		pos.x = randomNumber(0, SCREEN_W - SAFETY_MARGIN);
+		pos.y = SCREEN_H
+		break;
+	case FACING_RIGHT:
+		pos.x
+		pos.y
+		break;
+	case FACING_DOWN:
+		pos.x = randomNumber(0, SCREEN_W - SAFETY_MARGIN);
+		pos.y
+		break;
+	case FACING_LEFT:
+		pos.x
+		pos.y
+		break;
+	}
+	 = 
+	 = 
 }
 
 void Game::checkKeyboard(Ship *playerShip)
@@ -223,4 +268,9 @@ bool Game::collisionTest(Entity *object1, Entity *object2)
 
 	return false;
 
+}
+
+int Game::randomNumber(int min, int max)
+{
+	return rand() % (max - min + 1) + min;
 }

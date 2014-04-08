@@ -7,6 +7,8 @@
 #include <vector>
 #include "Ship.h"
 #include "bullet.h"
+#include "Entity.h"
+#include "EnemyShip.h"
 
 
 
@@ -28,12 +30,15 @@ private:
 	
 	void draw(); //Draws all of the games sprites
 	
+	
+	void spawnEnemy(EnemyShip*);
 	void rotate4(bool, Ship*);
 	void checkKeyboard(Ship*);
 	void checkFire(Ship*, std::vector<Bullet*> &);
 	void checkRotate(Ship*);
 	bool collisionTest(Entity*, Entity*);
 	void getFourCorners(Entity*, std::vector<xyPos> &);
+	int randomNumber(int, int);
 	/*void score(int);
 	int score();*/
 

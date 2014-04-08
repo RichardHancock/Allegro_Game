@@ -63,6 +63,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -74,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HelpScreen.h" />

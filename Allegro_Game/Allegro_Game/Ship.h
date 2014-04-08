@@ -9,7 +9,7 @@
 
 class Ship : public Entity, public SpriteLoader
 {
-private:
+protected:
 	static const int FACING_UP = 0;
 	static const int FACING_RIGHT = 1;
 	static const int FACING_DOWN = 2;
@@ -18,11 +18,10 @@ private:
 	int turretX;
 	int turretY;
 	int speed;
-	short weaponType;
 
 	void recalculateTurretPos();
 public:
-	Ship(std::string, int, int, int, int, short);
+	Ship(std::string, int, int, int, int);
 
 	~Ship();
 	

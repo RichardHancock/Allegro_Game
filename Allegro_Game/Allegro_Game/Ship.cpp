@@ -4,21 +4,11 @@
 #include <allegro.h>
 #include <string>
 
-Ship::Ship(std::string path, int startX, int startY, int startHealth
-	, int maxSpeed, short startWeaponType) : Entity(startX,startY,0,startHealth), SpriteLoader(path)
+Ship::Ship(std::string path, int startX, int startY, int direction,
+	int startHealth, int maxSpeed) 
+	: Entity(startX,startY,direction,startHealth), SpriteLoader(path)
 {
-
-	//Constants used for sanity purposes
-	//const int Ship::FACING_UP = 0;
-	//const int Ship::FACING_RIGHT = 1;
-	//const int Ship::FACING_DOWN = 2;
-	//const int Ship::FACING_LEFT = 3;
-	//Ship::sprite = load_bitmap(path.c_str(), NULL);
 	Ship::speed = maxSpeed;
-	Ship::weaponType = startWeaponType;
-	Entity::direction = 0;
-	//Ship::turretX = 0;
-	//Ship::turretY = 0;
 	recalculateTurretPos();
 
 	width = sprite->w;
