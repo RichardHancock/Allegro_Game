@@ -24,8 +24,9 @@ void Game::run()
 	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
 	buffer = create_bitmap(SCREEN_W,SCREEN_H);
 
-	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,100,2,1);
+	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,2);
 	
+	std::vector<EnemyShip*> enemyShips;
 	std::vector<Bullet*> bullets;
 	std::vector<Mine*> mines;
 	mines.push_back( new Mine("mine.bmp", 45, 45));
@@ -33,6 +34,9 @@ void Game::run()
 	bool endGame = false;
 
 	const int ALLEGRO_RIGHT_ANGLE = 256 / 4;
+	bool g = false;
+
+	spawnEnemy(enemyShips);
 
 	while(!endGame)
 	{
@@ -42,13 +46,27 @@ void Game::run()
 			checkRotate(playerShip);
 			checkFire(playerShip, bullets);
 
+			draw_sprite(buffer, bg, 0, 0);
+			//temp
+			if (key[KEY_G])
+			{
+				
+				g = true;
+			}
+			//for(int i = 0; i < enemyShips.size(); i++)
+			if (enemyShips.size() > 0)
+			{
+				enemyShips[0]->update();
+				rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
+					itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
+			}
 
 			for (int i = 0; i < bullets.size(); i++)
 			{
 				bullets[i]->update();
 			}
 
-			draw_sprite(buffer, bg, 0, 0);
+			
 
 			if (!collisionTest(playerShip,mines[0]))
 			{
@@ -84,39 +102,45 @@ void Game::run()
 	destroy_bitmap(buffer);
 }
 
-void Game::spawnEnemy(EnemyShip *object)
+void Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips)
 {
 	const int FACING_UP = 0;
 	const int FACING_RIGHT = 1;
 	const int FACING_DOWN = 2;
 	const int FACING_LEFT= 3;
 
-	object = new EnemyShip()
+	enemyShips.push_back(new EnemyShip("enemyShip.bmp",350,200,0,5,3));
 
 	// Assign a random direction for the ship to spawn from
 	int direction = randomNumber(0,3);
 	xyPos pos;
+
+	int width = enemyShips[0]->getWidth();
+	int height = enemyShips[0]->getHeight();
+
 	switch (direction)
 	{
 	case FACING_UP:
-		pos.x = randomNumber(0, SCREEN_W /* - image width*/);
-		pos.y = SCREEN_H
+		pos.x = randomNumber(0, SCREEN_W - width);
+		pos.y = SCREEN_H;
 		break;
 	case FACING_RIGHT:
-		pos.x
-		pos.y
+		pos.x = 0 - width;
+		pos.y = randomNumber(0, SCREEN_H - height);
 		break;
 	case FACING_DOWN:
-		pos.x = randomNumber(0, SCREEN_W - SAFETY_MARGIN);
-		pos.y
+		pos.x = randomNumber(0, SCREEN_W - width);
+		pos.y = 0 - width;
 		break;
 	case FACING_LEFT:
-		pos.x
-		pos.y
+		pos.x = SCREEN_W; 
+		pos.y = randomNumber(0, SCREEN_H - height);
 		break;
 	}
-	 = 
-	 = 
+
+	enemyShips[0]->setDirection(direction);
+	enemyShips[0]->teleport(pos.x,pos.y);
+
 }
 
 void Game::checkKeyboard(Ship *playerShip)

@@ -8,6 +8,8 @@ Entity::Entity(int startX, int startY, int startRotation, int startHealth)
 	y = startY;
 	direction = startRotation;
 	health = startHealth;
+	destroyed = false; 
+
 	isCircleVar = false; //will be overridden when needed
 }
 Entity::~Entity()
@@ -30,12 +32,6 @@ void Entity::setDirection(bool increment) //if true increment direction, if fals
 		direction--;
 	}
 }
-
-/*void Entity::movePos(int adjustX, int adjustY)
-{
-	x += adjustX;
-	y += adjustY;
-}*/
 
 void Entity::movePos(int adjustX, int adjustY)
 {
@@ -62,6 +58,11 @@ void Entity::movePos(int adjustX, int adjustY)
 int Entity::hit(int damage)
 {
 	health -= damage;
+
+	if (health <= 0)
+	{
+		destroyed = true;
+	}
 
 	return health;
 }

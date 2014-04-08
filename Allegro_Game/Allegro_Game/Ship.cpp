@@ -8,7 +8,7 @@ Ship::Ship(std::string path, int startX, int startY, int direction,
 	int startHealth, int maxSpeed) 
 	: Entity(startX,startY,direction,startHealth), SpriteLoader(path)
 {
-	Ship::speed = maxSpeed;
+	speed = maxSpeed;
 	recalculateTurretPos();
 
 	width = sprite->w;
@@ -136,6 +136,7 @@ void Ship::movePos(char movementDirection)
 			y -= speed;
 			break;
 		}
+
 	}
 
 	recalculateTurretPos();
@@ -144,6 +145,7 @@ int Ship::getSpeed()
 {
 	return speed;
 }
+
 
 int Ship::getTurretX()
 {

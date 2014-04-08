@@ -6,32 +6,18 @@ EnemyShip::EnemyShip(std::string path, int startX, int startY,
 	int direction, int startHealth, int maxSpeed)
 	: Ship(path,startX,startY,direction,startHealth,maxSpeed)
 {
+	//REMOVE
 	//Ship::speed = maxSpeed;
-	Entity::direction = 0;
-	recalculateTurretPos();
+	//Entity::direction = 0;
+	//recalculateTurretPos();
 
-	width = sprite->w;
-	height = sprite->h;
+	//width = sprite->w;
+	//height = sprite->h;
 }
 
 void EnemyShip::update()
 {
-	switch (direction)
-	{
-	case FACING_UP:
-		movePos('U');
-		break;
-	case FACING_RIGHT:
-		movePos('R');
-		break;
-	case FACING_DOWN:
-		movePos('D');
-		break;
-	case FACING_LEFT:
-		movePos('L');
-		break;
-	}
-	
+	movePos('U');
 }
 
 void EnemyShip::teleport(int newX, int newY)

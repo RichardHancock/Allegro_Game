@@ -11,7 +11,9 @@ protected:
 	int y;
 	int direction;
 	int health;
-	
+	bool destroyed;
+
+
 	//Added for compatibility between non-sprite (bullets) and sprite objects
 	int width;
 	int height;
@@ -30,6 +32,7 @@ public:
 	int getWidth();
 	int getHeight();
 	bool isCircle();
+
 };
 
 #endif

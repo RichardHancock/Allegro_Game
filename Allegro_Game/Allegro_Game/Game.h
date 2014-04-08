@@ -31,7 +31,7 @@ private:
 	void draw(); //Draws all of the games sprites
 	
 	
-	void spawnEnemy(EnemyShip*);
+	void spawnEnemy(std::vector<EnemyShip*> &);
 	void rotate4(bool, Ship*);
 	void checkKeyboard(Ship*);
 	void checkFire(Ship*, std::vector<Bullet*> &);
