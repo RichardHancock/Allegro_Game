@@ -9,14 +9,12 @@
 #include "bullet.h"
 #include "Entity.h"
 #include "EnemyShip.h"
+#include "ScreenState.h"
 
 
-
-class Game
+class Game : public ScreenState
 {
 public:
-	Game();
-	//void timer_increment();
 	struct xyPos
 	{
 		int x;
@@ -24,13 +22,10 @@ public:
 	};
 	xyPos xy;
 
-	void run(); //Runs all the game logic, returns id of next action (Menu or Exit) 
+	virtual int run(); //Runs all the game logic, returns id of next action (Menu or Exit) 
 private:
 	int score;
-	
-	void draw(); //Draws all of the games sprites
-	
-	
+		
 	void spawnEnemy(std::vector<EnemyShip*> &);
 	void rotate4(bool, Ship*);
 	void checkKeyboard(Ship*);
@@ -45,7 +40,7 @@ private:
 	/*void score(int);
 	int score();*/
 
-	BITMAP *buffer;
+	
 
 };
 

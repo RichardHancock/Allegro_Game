@@ -39,10 +39,10 @@
     <ClCompile Include="MenuScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenState.cpp">
+    <ClCompile Include="EnemyShip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyShip.cpp">
+    <ClCompile Include="HelpScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

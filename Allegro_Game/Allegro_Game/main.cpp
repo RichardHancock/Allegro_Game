@@ -40,9 +40,8 @@ int main()
 		Game *mainGameLoop = new Game(); //Create the Game class object
 		//this is created here, as switch statements do not allow the creation of objects within them.
 
-		int gameResult;
-
 		int menuResult = menuLoop->run();
+
 		switch (menuResult)
 		{
 		//Exit

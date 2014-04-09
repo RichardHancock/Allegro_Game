@@ -68,10 +68,10 @@
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="HelpScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="mine.cpp" />
-    <ClCompile Include="ScreenState.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="spriteLoader.cpp" />
   </ItemGroup>

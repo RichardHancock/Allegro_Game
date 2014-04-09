@@ -3,13 +3,14 @@
 #define HELPSCREEN_H
 
 #include <allegro.h>
+#include "ScreenState.h"
 
-class HelpScreen
+class HelpScreen : public ScreenState
 {
 private:
 
 public:
-	void run();
+	virtual void run();
 };
 
 #endif

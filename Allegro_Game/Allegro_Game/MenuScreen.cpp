@@ -16,6 +16,7 @@ int MenuScreen::run()
 	buttons[0].resize(4);
 	buttons[1].resize(4);
 	
+	//Could be re-factored into for loop
 	buttons[0][0] = load_bitmap("button1.bmp",NULL);
 	buttons[0][1] = load_bitmap("button2.bmp",NULL);
 	buttons[0][2] = load_bitmap("button3.bmp",NULL);
@@ -26,7 +27,7 @@ int MenuScreen::run()
 	buttons[1][2] = load_bitmap("button3Hover.bmp",NULL);
 	buttons[1][3] = load_bitmap("button4Hover.bmp",NULL);
 
-	int thirdOfScreen = SCREEN_W / 3;
+	int menuResult = -1;
 
 	bool endMenu = false;
 
@@ -44,7 +45,8 @@ int MenuScreen::run()
 				draw_sprite(buffer, buttons[1][0], 220, 150);
 				if (mouse_b & 1)
 				{
-					return 1;
+					menuResult = 1;
+					endMenu = true;
 				}
 			}
 			else
@@ -57,7 +59,8 @@ int MenuScreen::run()
 				draw_sprite(buffer, buttons[1][1], 220, 225);
 				if (mouse_b & 1)
 				{
-					return 2;
+					menuResult = 2;
+					endMenu = true;
 				}
 			}
 			else
@@ -70,7 +73,8 @@ int MenuScreen::run()
 				draw_sprite(buffer, buttons[1][2], 220, 300);
 				if (mouse_b & 1)
 				{
-					return 3;
+					menuResult = 3;
+					endMenu = true;
 				}
 			}
 			else
@@ -83,7 +87,8 @@ int MenuScreen::run()
 				draw_sprite(buffer, buttons[1][3], 220, 375);
 				if (mouse_b & 1)
 				{
-					return 0;
+					menuResult = 0;
+					endMenu = true;
 				}
 			}
 			else
@@ -100,6 +105,7 @@ int MenuScreen::run()
 			//if(mouse_x)
 		}
 
+
 	}
 
 	// Destroy all menu bitmaps
@@ -113,5 +119,9 @@ int MenuScreen::run()
 			destroy_bitmap(buttons[i][j]);
 		}
 	}
+
+	// Tell the main loop which part of the program to load next, or exit.
+	return menuResult;
+
 
 }

@@ -3,13 +3,12 @@
 #define MENUSCREEN_H
 
 #include <allegro.h>
+#include "ScreenState.h"
 
-class MenuScreen
+class MenuScreen : public ScreenState
 {
-private:
-	void draw();
 public:
-	int run();
+	virtual int run(); 
 };
 
 #endif

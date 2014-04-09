@@ -11,18 +11,14 @@
 
 extern volatile int timer;
 
-Game::Game()
-{
-	//Game::xyPos xyPosInst;
-}
-
-void Game::run()
+int Game::run()
 {
 
 	srand(time(NULL));
 
+	
 	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
-	buffer = create_bitmap(SCREEN_W,SCREEN_H);
+	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
 
 	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,2);
 	
@@ -57,16 +53,14 @@ void Game::run()
 				canFire = checkFire(playerShip, bullets);
 			}
 			
+			checkBoundries(playerShip);
+			checkBoundries(enemyShips[0]);
+
 			draw_sprite(buffer, bg, 0, 0);
 		
 			//temp
 			//for(int i = 0; i < enemyShips.size(); i++)
-			if (enemyShips.size() > 0)
-			{
-				enemyShips[0]->update();
-				rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
-					itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
-			}
+			
 
 			for (int i = 0; i < bullets.size(); i++)
 			{
@@ -80,14 +74,19 @@ void Game::run()
 				draw_sprite(buffer, mines[0]->getSprite(), mines[0]->getX(),mines[0]->getY());
 			}
 
-
+			if (enemyShips.size() > 0)
+			{
+				enemyShips[0]->update();
+				rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
+					itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
+			}
 
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 				itofix(playerShip->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
 			// draw collision bounding box
-			rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
-				playerShip->getY()+playerShip->getSprite()->h, makecol(255,255,255));
+			/*rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
+				playerShip->getY()+playerShip->getSprite()->h, makecol(255,255,255));*/
 
 			
 
@@ -118,6 +117,7 @@ void Game::run()
 
 
 	destroy_bitmap(buffer);
+	return 0;
 }
 
 void Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips)
@@ -331,11 +331,25 @@ int Game::randomNumber(int min, int max)
 
 void Game::checkBoundries(Ship* shipObject)
 {
-	std::vector<xyPos> shipPoints;
+	std::vector<Game::xyPos> shipPoints;
+	shipPoints.resize(4);
 	getFourCorners(shipObject, shipPoints);
 
-	if(shipPoints[0].y < 0)
+	if (shipPoints[2].y < 0)
 	{
-		shipObject->
+		shipObject->teleport(shipObject->getX(),SCREEN_H - 1);
+	}
+	else if (shipPoints[0].y > SCREEN_H)
+	{
+		shipObject->teleport(shipObject->getX(),1 - shipObject->getHeight());
+	}
+
+	if (shipPoints[0].x > SCREEN_W)
+	{
+		shipObject->teleport(1 - shipObject->getWidth(),shipObject->getY());
+	}
+	else if (shipPoints[1].x < 0)
+	{
+		shipObject->teleport(SCREEN_W - 1,shipObject->getY());
 	}
 }
