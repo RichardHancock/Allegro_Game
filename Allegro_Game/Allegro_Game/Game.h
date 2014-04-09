@@ -22,6 +22,7 @@ public:
 	};
 	xyPos xy;
 
+	Game();
 	virtual int run(); //Runs all the game logic
 private:
 	int score;
@@ -37,10 +38,6 @@ private:
 	bool collisionTest(Entity*, Entity*);
 	void getFourCorners(Entity*, std::vector<xyPos> &);
 	int randomNumber(int, int);
-	/*void score(int);
-	int score();*/
-
-	
 
 };
 

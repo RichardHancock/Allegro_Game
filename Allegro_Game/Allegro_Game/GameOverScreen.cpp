@@ -3,9 +3,13 @@
 
 extern volatile int timer;
 
-GameOverScreen::GameOverScreen(bool isVictory)
+GameOverScreen::GameOverScreen(bool isVictoryInput,int score)
 {
+	finalScore = score;
 
+	// This variable holds the Win/Lose state of the game.
+	isVictory = isVictoryInput;
+	// Without it, two GameOverScreen classes would be required
 }
 
 int GameOverScreen::run()
@@ -28,16 +32,21 @@ int GameOverScreen::run()
 
 			rectfill(buffer,96, 150, 544, 400, makecol(2,2,2));
 
-			//This section could be written as a loop that takes text from a text file line by line.
-			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 160,
-				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 180,
-				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 200,
-				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 220,
-				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 240,
+			if (isVictory) {
+				textout_centre_ex(buffer, mainFont, "You Win!", SCREEN_W / 2, 220,
+					makecol(255,255,255),makecol(2,2,2));
+				
+			}
+			else
+			{
+				textout_centre_ex(buffer, mainFont, "You Lose!", SCREEN_W / 2, 220,
+					makecol(255,255,255),makecol(2,2,2));
+			}
+
+			textprintf_centre_ex(buffer, mainFont, SCREEN_W / 2, 260,
+				makecol(255,255,255),makecol(2,2,2), "Your Score: %i", finalScore);
+
+			textout_centre_ex(buffer, mainFont, "Press Escape Key to return to the Menu", SCREEN_W / 2, 340,
 				makecol(255,255,255),makecol(2,2,2));
 
 			if (key[KEY_ESC])

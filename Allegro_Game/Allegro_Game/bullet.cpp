@@ -1,14 +1,14 @@
 #include "Bullet.h"
 #include <allegro.h>
 
-Bullet::Bullet(int startX, int startY, int startRotation, int startHealth) : 
+Bullet::Bullet(int startX, int startY, int startRotation, int startHealth, int maxSpeed) : 
 Entity(startX,startY,startRotation,startHealth)
 {
-	x = startX;
-	y = startY;
-	direction = startRotation;
-	health = startHealth;
-	speed = 4;
+	//x = startX;
+	//y = startY;
+	//direction = startRotation;
+	//health = startHealth;
+	speed = maxSpeed;
 
 	//Because this object doesn't have a sprite I have to manually input width and height.
 	height = 6;

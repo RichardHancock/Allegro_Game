@@ -8,12 +8,9 @@
 class Bullet : public Entity
 {
 private:
-	//int x;
-	//int y;
-	//int direction;
 	int speed;
 public:
-	Bullet(int, int, int, int);
+	Bullet(int, int, int, int, int);
 	void update();
 };
 

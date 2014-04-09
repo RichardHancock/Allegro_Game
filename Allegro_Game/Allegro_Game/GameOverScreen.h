@@ -8,9 +8,10 @@
 class GameOverScreen : public ScreenState
 {
 private:
-
+	int finalScore; // This variable holds the Win/Lose state of the game.
+	bool isVictory;
 public:
-	GameOverScreen(bool);
+	GameOverScreen(bool,int);
 	virtual int run();
 };
 

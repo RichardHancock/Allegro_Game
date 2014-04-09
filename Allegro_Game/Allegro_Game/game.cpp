@@ -8,25 +8,39 @@
 #include "Bullet.h"
 #include "Ship.h"
 #include "mine.h"
+#include "GameOverScreen.h"
 
 extern volatile int timer;
+
+Game::Game()
+{
+	score = 0;
+}
 
 int Game::run()
 {
 
 	srand(time(NULL));
 
-	
+	// LOAD RESOURCES:
 	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
 	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
 	SAMPLE* fire = load_sample("laser1.wav");
-	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,2);
+	FONT* mainFont = load_font("myanmarFont.pcx",NULL,NULL);
+
+	//LOAD GAME OBJECTS:
+	//Creates the player ship object and spawns it near the middle of the screen.
+	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,4);
+	std::vector<EnemyShip*> enemyShips; // Created as a vector to allow for future versions to have multiple enemies
+	std::vector<Bullet*> bullets; // Stores all bullets fired
 	
-	std::vector<EnemyShip*> enemyShips;
-	std::vector<Bullet*> bullets;
+	//Initializing Mines
 	std::vector<Mine*> mines;
+	// Spawns four mines in all four corners to make maneuvering difficult
 	mines.push_back( new Mine("mine.bmp", 45, 45));
-	
+	mines.push_back( new Mine("mine.bmp", 45, SCREEN_H - 45));
+	mines.push_back( new Mine("mine.bmp", SCREEN_W - 45, 45));
+	mines.push_back( new Mine("mine.bmp", SCREEN_W - 45, SCREEN_H - 45));
 	
 
 	const int ALLEGRO_RIGHT_ANGLE = 256 / 4;
@@ -89,44 +103,41 @@ int Game::run()
 				draw_sprite(buffer, mines[0]->getSprite(), mines[0]->getX(),mines[0]->getY());
 			}*/
 
-			if (enemyShips.size() > 0)
+			
+			enemyShips[0]->update();
+			rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
+				itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
+
+			if (collisionTest(playerShip,enemyShips[0]))
 			{
-				enemyShips[0]->update();
-				rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
-					itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
-				if (collisionTest(playerShip,enemyShips[0]))
+				playerShip->hit(1); 
+			}
+			for (int i = 0; i < bullets.size(); i++)
+			{
+				if (collisionTest(enemyShips[0],bullets[i]))
 				{
-					playerShip->hit(1); 
-				}
-				for (int i = 0; i < bullets.size(); i++)
-				{
-					if (collisionTest(enemyShips[0],bullets[i]))
+					enemyShips[0]->hit(1);
+					bullets[i]->hit(1);
+
+					if (enemyShips[0]->isDestroyed())
 					{
-						enemyShips[0]->hit(1);
-						bullets[i]->hit(1);
+						enemyShips.erase(enemyShips.begin());
+						enemiesDestroyed++;
+						gameStatus = spawnEnemy(enemyShips, enemiesDestroyed);
 
-						if (enemyShips[0]->isDestroyed())
-						{
-							enemyShips.erase(enemyShips.begin());
-							enemiesDestroyed++;
-							gameStatus = spawnEnemy(enemyShips, enemiesDestroyed);
+						score += 10;
 
-							bullets.clear();
-						}
-
-
+						bullets.clear();
 					}
+
+
 				}
 			}
+			
 
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 				itofix(playerShip->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
-			// draw collision bounding box
-			/*rect(buffer, playerShip->getX(), playerShip->getY(), playerShip->getX() + playerShip->getSprite()->w,
-				playerShip->getY()+playerShip->getSprite()->h, makecol(255,255,255));*/
-
-			
 
 			for (int i = 0; i < bullets.size(); i++)
 			{
@@ -142,6 +153,8 @@ int Game::run()
 				gameStatus = LOSE;
 			}
 
+			textprintf_right_ex(buffer, mainFont, SCREEN_W - 5, 0,
+				makecol(255,255,255),-1, "Score: %i", score);
 			
 			blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 			clear_bitmap(buffer);
@@ -161,11 +174,22 @@ int Game::run()
 	destroy_bitmap(buffer);
 	destroy_sample(fire);
 
+	// Load Game Over Screen if the game ended with a win or lose, not a user exit.
 	if (gameStatus != USER_EXIT)
 	{
-		//load game over here
-	}
+		GameOverScreen *gameOver;
+		if (gameStatus == WIN)
+		{
+			gameOver = new GameOverScreen(true,score);
+	
+		}
+		else
+		{
+			gameOver = new GameOverScreen(false,score);
+		}
 
+		gameOver->run();
+	}
 	return 0;
 }
 
@@ -181,7 +205,7 @@ int Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips, int enemiesDestroyed)
 		return 2; //returns a win status to the game loop
 	}
 
-	enemyShips.push_back(new EnemyShip("enemyShip.bmp",350,200,0,5,3));
+	enemyShips.push_back(new EnemyShip("enemyShip.bmp",350,200,0,5,5));
 
 	// Assign a random direction for the ship to spawn from
 	int direction = randomNumber(0,3);
@@ -270,7 +294,7 @@ bool Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
 
 		// add new bullet to end of vector
 		bullets.push_back(new Bullet(playerShip->getTurretX(), playerShip->getTurretY(),
-			playerShip->getDirection(),1));
+			playerShip->getDirection(),1, 6));
 
 		//Player loses a point, this is to try and deter bullet 'spamming'
 		score -= 1;

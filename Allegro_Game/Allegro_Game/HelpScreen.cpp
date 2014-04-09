@@ -25,15 +25,18 @@ int HelpScreen::run()
 			rectfill(buffer,96, 150, 544, 400, makecol(2,2,2));
 
 			//This section could be written as a loop that takes text from a text file line by line.
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 160,
+			textout_centre_ex(buffer, mainFont, "CONTROLS:", SCREEN_W / 2, 160,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 180,
+			textout_centre_ex(buffer, mainFont, "Forward - W / UP", SCREEN_W / 2, 180,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 200,
+			textout_centre_ex(buffer, mainFont, "Backward - S / DOWN", SCREEN_W / 2, 200,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 220,
+			textout_centre_ex(buffer, mainFont, "Strafe Left - A / LEFT", SCREEN_W / 2, 220,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 240,
+			textout_centre_ex(buffer, mainFont, "Strafe Right - D / RIGHT", SCREEN_W / 2, 240,
+				makecol(255,255,255),makecol(2,2,2));
+
+			textout_centre_ex(buffer, mainFont, "Press Escape Key to return to the Menu", SCREEN_W / 2, 380,
 				makecol(255,255,255),makecol(2,2,2));
 
 			if (key[KEY_ESC])
