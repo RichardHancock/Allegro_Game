@@ -1,11 +1,11 @@
 #pragma once
-#ifndef HELPSCREEN_H
-#define HELPSCREEN_H
+#ifndef CREDITSSCREEN_H
+#define CREDITSSCREEN_H
 
 #include <allegro.h>
 #include "ScreenState.h"
 
-class HelpScreen : public ScreenState
+class CreditsScreen : public ScreenState
 {
 private:
 

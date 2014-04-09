@@ -45,6 +45,9 @@
     <ClCompile Include="HelpScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CreditsScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h">
@@ -77,6 +80,9 @@
     <ClInclude Include="EnemyShip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CreditsScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="mine.bmp">
@@ -107,6 +113,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="button4Hover.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="myanmarFont.pcx">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

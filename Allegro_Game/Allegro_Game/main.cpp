@@ -1,75 +1,95 @@
 #include <allegro.h>
 #include "Game.h"
 #include "MenuScreen.h"
-
+#include "HelpScreen.h"
+#include "CreditsScreen.h"
 
 /*Mine *mines;
 void score(int);
 int score();*/
 void timer_increment();
+void runGame();
+void runHelp();
+void runCredits();
 
 volatile int timer = 0;
-//std::vector<Bullet> bullets;
 
 void timer_increment()
 {
 	timer++;
 }
 
+void runGame()
+{
+	Game *mainGameLoop = new Game(); //Create the Game class object
+	mainGameLoop->run(); //Start the Game loop
+
+	delete mainGameLoop;
+}
+void runHelp()
+{
+	HelpScreen *helpScreen = new HelpScreen(); //Create the HelpScreen class object
+	helpScreen->run(); //Start loop
+
+	delete helpScreen;
+}
+void runCredits()
+{
+	CreditsScreen *creditsScreen = new CreditsScreen(); //Create the CreditsScreen class object
+	creditsScreen->run(); //Start loop
+
+	delete creditsScreen;
+}
+
+
 int main()
 {
+	//Required Allegro init functions
 	allegro_init();
 	install_keyboard();
 	install_mouse();
 	install_timer();
-
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
-	
-	//mines = new Mine("mine.bmp",20,20);
-
-	install_int_ex(timer_increment, BPS_TO_TIMER(60)); //REFERENCE THIS
 	set_window_title("Star Fire");
 
-	bool gameEnd = false;
 
-	while (!gameEnd)
+	//Start repeating timer
+	install_int_ex(timer_increment, BPS_TO_TIMER(60)); //REFERENCE THIS
+	
+
+	while (true) //Infinite until return statement
 	{
-
 		MenuScreen *menuLoop = new MenuScreen();
-		Game *mainGameLoop = new Game(); //Create the Game class object
-		//this is created here, as switch statements do not allow the creation of objects within them.
 
 		int menuResult = menuLoop->run();
+		delete menuLoop; // Delete for Performance
 
 		switch (menuResult)
 		{
-		//Exit
+		// Exit
 		case 0:
-			gameEnd = true;
-
+			return 0;
 			break;
 		case 1:
-			mainGameLoop->run(); //Start the Game loop and store return state
-			
+			// Play / Game
+			runGame();
 			break;
 		case 2:
-			//Credits
+			// Help
+			runHelp();
+			break;
+		case 3:
+			// Credits
+			runCredits();
 			break;
 		}
 
-		
-
-		//Delete both objects
-		delete mainGameLoop;
-		delete menuLoop;
-
-		//If an exit hasn't been requested, the game will restart at menu.
+		//If an exit hasn't been requested, the game will restart the menu.
 	}
-	
-	return 0;
 }
 END_OF_MAIN();
+
 
 
 /*

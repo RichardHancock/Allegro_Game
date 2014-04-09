@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
@@ -77,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="Game.h" />
@@ -97,6 +99,7 @@
     <None Include="button4.bmp" />
     <None Include="button4Hover.bmp" />
     <None Include="mine.bmp" />
+    <None Include="myanmarFont.pcx" />
     <None Include="ship.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

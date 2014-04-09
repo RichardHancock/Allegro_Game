@@ -1,10 +1,9 @@
-
 #include <allegro.h>
-#include "HelpScreen.h"
+#include "CreditsScreen.h"
 
 extern volatile int timer;
 
-int HelpScreen::run()
+int CreditsScreen::run()
 {
 	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
 	BITMAP* bg = load_bitmap("menuBackground.bmp",NULL);
@@ -25,15 +24,15 @@ int HelpScreen::run()
 			rectfill(buffer,96, 150, 544, 400, makecol(2,2,2));
 
 			//This section could be written as a loop that takes text from a text file line by line.
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 160,
+			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 160,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 180,
+			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 180,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 200,
+			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 200,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 220,
+			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 220,
 				makecol(255,255,255),makecol(2,2,2));
-			textout_centre_ex(buffer, mainFont, "Put Help Here", SCREEN_W / 2, 240,
+			textout_centre_ex(buffer, mainFont, "Put Credits Here", SCREEN_W / 2, 240,
 				makecol(255,255,255),makecol(2,2,2));
 
 			if (key[KEY_ESC])
@@ -45,7 +44,7 @@ int HelpScreen::run()
 			clear_bitmap(buffer);
 
 			timer--;
-			
+
 		}
 	}
 
@@ -54,6 +53,7 @@ int HelpScreen::run()
 	destroy_bitmap(logo);
 	destroy_bitmap(buffer);
 	destroy_font(mainFont);
+
 
 	// return to menu.
 	return 0;

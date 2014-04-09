@@ -104,8 +104,6 @@ int MenuScreen::run()
 			//rect(buffer, thirdOfScreen, 200, thirdOfScreen * 2, 250,makecol(255,255,255));
 			//if(mouse_x)
 		}
-
-
 	}
 
 	// Destroy all menu bitmaps
