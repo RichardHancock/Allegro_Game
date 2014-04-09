@@ -26,7 +26,7 @@ public:
 private:
 	int score;
 		
-	void spawnEnemy(std::vector<EnemyShip*> &);
+	int spawnEnemy(std::vector<EnemyShip*> &,int);
 	void rotate4(bool, Ship*);
 	void checkKeyboard(Ship*);
 	bool checkFire(Ship*, std::vector<Bullet*> &);

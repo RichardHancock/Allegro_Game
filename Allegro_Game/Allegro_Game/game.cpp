@@ -41,9 +41,10 @@ int Game::run()
 	const int LOSE = 3;
 
 	int gameStatus = IN_PROGRESS;
+	int enemiesDestroyed = 0;
 
 	int delay = 0;
-	spawnEnemy(enemyShips);
+	spawnEnemy(enemyShips, enemiesDestroyed);
 
 	while(gameStatus == IN_PROGRESS)
 	{
@@ -81,10 +82,7 @@ int Game::run()
 				bullets[i]->update();
 			}
 
-			if (collisionTest(playerShip,enemyShips[0]))
-			{
-				playerShip->hit(1); 
-			}
+			
 
 			/*if (!collisionTest(playerShip,mines[0]))
 			{
@@ -96,6 +94,28 @@ int Game::run()
 				enemyShips[0]->update();
 				rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
 					itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
+				if (collisionTest(playerShip,enemyShips[0]))
+				{
+					playerShip->hit(1); 
+				}
+				for (int i = 0; i < bullets.size(); i++)
+				{
+					if (collisionTest(enemyShips[0],bullets[i]))
+					{
+						enemyShips[0]->hit(1);
+						bullets[i]->hit(1);
+
+						if (enemyShips[0]->isDestroyed())
+						{
+							enemyShips.erase(enemyShips.begin());
+							gameStatus = spawnEnemy(enemyShips, enemiesDestroyed);
+
+							bullets.clear();
+						}
+
+
+					}
+				}
 			}
 
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
@@ -148,12 +168,17 @@ int Game::run()
 	return 0;
 }
 
-void Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips)
+int Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips, int enemiesDestroyed)
 {
 	const int FACING_UP = 0;
 	const int FACING_RIGHT = 1;
 	const int FACING_DOWN = 2;
 	const int FACING_LEFT= 3;
+
+	if (enemiesDestroyed > 5)
+	{
+		return 2; //returns a win status to the game loop
+	}
 
 	enemyShips.push_back(new EnemyShip("enemyShip.bmp",350,200,0,5,3));
 
@@ -187,6 +212,7 @@ void Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips)
 	enemyShips[0]->setDirection(direction);
 	enemyShips[0]->teleport(pos.x,pos.y);
 
+	return 0;
 }
 
 void Game::checkKeyboard(Ship *playerShip)
@@ -211,6 +237,7 @@ void Game::checkKeyboard(Ship *playerShip)
 		//ship_x += speed;
 		playerShip->movePos('R');
 	}
+
 }
 bool Game::checkRotate(Ship *playerShip)
 {

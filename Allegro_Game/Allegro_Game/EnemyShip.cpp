@@ -17,6 +17,6 @@ EnemyShip::EnemyShip(std::string path, int startX, int startY,
 
 void EnemyShip::update()
 {
-	movePos('U');
+	movePos('U'); //Makes the ship fly forwards no matter what direction it is facing
 }
 
