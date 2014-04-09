@@ -108,6 +108,7 @@ int Game::run()
 						if (enemyShips[0]->isDestroyed())
 						{
 							enemyShips.erase(enemyShips.begin());
+							enemiesDestroyed++;
 							gameStatus = spawnEnemy(enemyShips, enemiesDestroyed);
 
 							bullets.clear();

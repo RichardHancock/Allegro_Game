@@ -69,6 +69,7 @@
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="HelpScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="HelpScreen.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="mine.h" />
