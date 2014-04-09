@@ -19,7 +19,7 @@ int Game::run()
 	
 	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
 	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
-
+	SAMPLE* fire = load_sample("laser1.wav");
 	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,2);
 	
 	std::vector<EnemyShip*> enemyShips;
@@ -27,18 +27,25 @@ int Game::run()
 	std::vector<Mine*> mines;
 	mines.push_back( new Mine("mine.bmp", 45, 45));
 	
-	bool endGame = false;
+	
 
 	const int ALLEGRO_RIGHT_ANGLE = 256 / 4;
-
+	
 	//delays
 	bool canFire = true;
 	bool canRotate = true;
 
+	const int IN_PROGRESS = 0;
+	const int USER_EXIT = 1;
+	const int WIN = 2;
+	const int LOSE = 3;
+
+	int gameStatus = IN_PROGRESS;
+
 	int delay = 0;
 	spawnEnemy(enemyShips);
 
-	while(!endGame)
+	while(gameStatus == IN_PROGRESS)
 	{
 		while(timer)
 		{
@@ -51,6 +58,10 @@ int Game::run()
 			if (canFire)
 			{
 				canFire = checkFire(playerShip, bullets);
+				if (!canFire)
+				{
+					play_sample(fire,255,128,1000,0);
+				}
 			}
 			
 			checkBoundries(playerShip);
@@ -61,18 +72,24 @@ int Game::run()
 			//temp
 			//for(int i = 0; i < enemyShips.size(); i++)
 			
+			/*Have counter check how many enemy ships have been deployed once 5 have been spawned trigger
+			game over and show score, bullet to ship collision should trigger the next ship.
+			*/
 
 			for (int i = 0; i < bullets.size(); i++)
 			{
 				bullets[i]->update();
 			}
 
-			
+			if (collisionTest(playerShip,enemyShips[0]))
+			{
+				playerShip->hit(1); 
+			}
 
-			if (!collisionTest(playerShip,mines[0]))
+			/*if (!collisionTest(playerShip,mines[0]))
 			{
 				draw_sprite(buffer, mines[0]->getSprite(), mines[0]->getX(),mines[0]->getY());
-			}
+			}*/
 
 			if (enemyShips.size() > 0)
 			{
@@ -96,9 +113,14 @@ int Game::run()
 			}
 
 			if(key[KEY_ESC]) {
-				endGame = true;
+				gameStatus = USER_EXIT;
 			}
 			
+			if(playerShip->isDestroyed())
+			{
+				gameStatus = LOSE;
+			}
+
 			
 			blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 			clear_bitmap(buffer);
@@ -115,8 +137,14 @@ int Game::run()
 		}
 	}
 
-
 	destroy_bitmap(buffer);
+	destroy_sample(fire);
+
+	if (gameStatus != USER_EXIT)
+	{
+		//load game over here
+	}
+
 	return 0;
 }
 

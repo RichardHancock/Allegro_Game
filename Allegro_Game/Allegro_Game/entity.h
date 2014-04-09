@@ -32,6 +32,7 @@ public:
 	int getWidth();
 	int getHeight();
 	bool isCircle();
+	bool isDestroyed();
 	void teleport(int,int);
 
 };

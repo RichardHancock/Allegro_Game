@@ -22,7 +22,7 @@ public:
 	};
 	xyPos xy;
 
-	virtual int run(); //Runs all the game logic, returns id of next action (Menu or Exit) 
+	virtual int run(); //Runs all the game logic
 private:
 	int score;
 		

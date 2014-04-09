@@ -99,6 +99,11 @@ bool Entity::isCircle()
 	return isCircleVar;
 }
 
+bool Entity::isDestroyed()
+{
+	return destroyed;
+}
+
 void Entity::teleport(int newX, int newY)
 {
 	x = newX;

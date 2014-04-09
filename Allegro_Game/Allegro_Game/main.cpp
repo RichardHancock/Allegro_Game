@@ -49,6 +49,7 @@ int main()
 	install_keyboard();
 	install_mouse();
 	install_timer();
+	install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL);
 	set_color_depth(16);
 	set_gfx_mode(GFX_AUTODETECT_WINDOWED,640,480,0,0);
 	set_window_title("Star Fire");
