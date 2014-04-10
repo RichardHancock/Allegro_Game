@@ -100,6 +100,11 @@
     <None Include="button3Hover.bmp" />
     <None Include="button4.bmp" />
     <None Include="button4Hover.bmp" />
+    <None Include="enemyShip.bmp" />
+    <None Include="gameBackground.bmp" />
+    <None Include="laser1.wav" />
+    <None Include="logo.bmp" />
+    <None Include="menuBackground.bmp" />
     <None Include="mine.bmp" />
     <None Include="myanmarFont.pcx" />
     <None Include="ship.bmp" />

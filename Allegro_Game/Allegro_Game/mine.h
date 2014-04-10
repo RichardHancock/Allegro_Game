@@ -6,15 +6,14 @@
 #include "entity.h"
 #include "spriteLoader.h"
 
+// NOT USED IN FINAL GAME
+
 class Mine : public Entity, public SpriteLoader
 {
-private:
-	
 public:
 	Mine(std::string, int, int);
-	~Mine();
 
-	void setSprite(std::string);
+	void setSprite(std::string); //Differs from parent as width and height vars need to be set.
 };
 
 #endif

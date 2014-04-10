@@ -4,18 +4,19 @@
 #include <time.h>
 
 #include "Game.h"
-#include "entity.h"
+#include "Entity.h"
 #include "Bullet.h"
 #include "Ship.h"
-#include "mine.h"
+#include "EnemyShip.h"
 #include "GameOverScreen.h"
 
-extern volatile int timer;
+extern volatile int timer; //Access timer from main 
 
 Game::Game()
 {
-	score = 0;
+	score = 0; //Set base Score
 }
+
 
 int Game::run()
 {
@@ -25,15 +26,19 @@ int Game::run()
 	// LOAD RESOURCES:
 	BITMAP* bg = load_bitmap("gameBackground.bmp",NULL);
 	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
-	SAMPLE* fire = load_sample("laser1.wav");
+	SAMPLE* laser = load_sample("laser1.wav");
 	FONT* mainFont = load_font("myanmarFont.pcx",NULL,NULL);
+
 
 	//LOAD GAME OBJECTS:
 	//Creates the player ship object and spawns it near the middle of the screen.
-	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,4);
+	Ship *playerShip = new Ship("ship.bmp",SCREEN_W / 2,SCREEN_H / 2,0,1,5);
+
 	std::vector<EnemyShip*> enemyShips; // Created as a vector to allow for future versions to have multiple enemies
 	std::vector<Bullet*> bullets; // Stores all bullets fired
 	
+
+	/* NOT USED IN FINAL GAME
 	//Initializing Mines
 	std::vector<Mine*> mines;
 	// Spawns four mines in all four corners to make maneuvering difficult
@@ -41,30 +46,38 @@ int Game::run()
 	mines.push_back( new Mine("mine.bmp", 45, SCREEN_H - 45));
 	mines.push_back( new Mine("mine.bmp", SCREEN_W - 45, 45));
 	mines.push_back( new Mine("mine.bmp", SCREEN_W - 45, SCREEN_H - 45));
-	
+	*/
+
 
 	const int ALLEGRO_RIGHT_ANGLE = 256 / 4;
 	
-	//delays
+	/*Delay for rotation and shooting, without this delay they occur at a
+	very fast rate not suitable for the game.*/
 	bool canFire = true;
 	bool canRotate = true;
+	int delay = 0;
 
-	const int IN_PROGRESS = 0;
-	const int USER_EXIT = 1;
+	//Game Statuses 
+	const int IN_PROGRESS = 0; // Game hasn't ended
+	const int USER_EXIT = 1; // User pressed escape
 	const int WIN = 2;
 	const int LOSE = 3;
 
-	int gameStatus = IN_PROGRESS;
-	int enemiesDestroyed = 0;
+	int gameStatus = IN_PROGRESS; // Initialize the status var
+	int enemiesDestroyed = 0; // Set kill count to 0.
 
-	int delay = 0;
-	spawnEnemy(enemyShips, enemiesDestroyed);
+	//Spawn first enemy
+	spawnEnemy(enemyShips, enemiesDestroyed); 
 
+	//Start actual game loop
 	while(gameStatus == IN_PROGRESS)
 	{
 		while(timer)
 		{
+			// LOGICAL OPERATIONS
+			// Keyboard and Player Input Checks
 			checkKeyboard(playerShip);
+			
 			if (canRotate)
 			{
 				canRotate = checkRotate(playerShip);
@@ -73,96 +86,108 @@ int Game::run()
 			if (canFire)
 			{
 				canFire = checkFire(playerShip, bullets);
+				
 				if (!canFire)
 				{
-					play_sample(fire,255,128,1000,0);
+					// If can fire has been set to false, it means a bullet was fired
+					play_sample(laser,255,128,1000,0); //Play Laser sound
 				}
 			}
 			
-			checkBoundries(playerShip);
-			checkBoundries(enemyShips[0]);
-
-			draw_sprite(buffer, bg, 0, 0);
-		
-			//temp
-			//for(int i = 0; i < enemyShips.size(); i++)
-			
-			/*Have counter check how many enemy ships have been deployed once 5 have been spawned trigger
-			game over and show score, bullet to ship collision should trigger the next ship.
-			*/
-
+			// Update NPC objects positions
 			for (int i = 0; i < bullets.size(); i++)
 			{
 				bullets[i]->update();
 			}
 
-			
-
-			/*if (!collisionTest(playerShip,mines[0]))
-			{
-				draw_sprite(buffer, mines[0]->getSprite(), mines[0]->getX(),mines[0]->getY());
-			}*/
-
-			
 			enemyShips[0]->update();
-			rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
-				itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
+
+			//Collision Tests
+
+			// Checks if ships hit a boundary
+			checkBoundries(playerShip);
+			checkBoundries(enemyShips[0]);
+			
+			// Checks if player crashed into enemy ship 
 			if (collisionTest(playerShip,enemyShips[0]))
 			{
 				playerShip->hit(1); 
 			}
+
+			// Check for collision with enemy ship with all bullet
 			for (int i = 0; i < bullets.size(); i++)
 			{
 				if (collisionTest(enemyShips[0],bullets[i]))
 				{
+					// If a collision occurred both objects take damage.
 					enemyShips[0]->hit(1);
 					bullets[i]->hit(1);
-
-					if (enemyShips[0]->isDestroyed())
-					{
-						enemyShips.erase(enemyShips.begin());
-						enemiesDestroyed++;
-						gameStatus = spawnEnemy(enemyShips, enemiesDestroyed);
-
-						score += 10;
-
-						bullets.clear();
-					}
-
-
 				}
 			}
 			
 
+			//DRAW OPERATIONS
+
+			//Draw Background
+			draw_sprite(buffer, bg, 0, 0);
+
+			//Draw ship objects, accounting for their direction and rotating their BITMAPs.
 			rotate_sprite(buffer, playerShip->getSprite(),playerShip->getX(),playerShip->getY(), 
 				itofix(playerShip->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
+			rotate_sprite(buffer,enemyShips[0]->getSprite(),enemyShips[0]->getX(),enemyShips[0]->getY(),
+				itofix(enemyShips[0]->getDirection() * ALLEGRO_RIGHT_ANGLE));
 
+			//Draw all the bullets
 			for (int i = 0; i < bullets.size(); i++)
 			{
 				circle(buffer, bullets[i]->getX(), bullets[i]->getY(), 3, makecol(255,255,255));
 			}
 
-			if(key[KEY_ESC]) {
-				gameStatus = USER_EXIT;
-			}
-			
-			if(playerShip->isDestroyed())
-			{
-				gameStatus = LOSE;
-			}
-
+			// Draw the score last, so its always on top
 			textprintf_right_ex(buffer, mainFont, SCREEN_W - 5, 0,
 				makecol(255,255,255),-1, "Score: %i", score);
 			
+
+			// Output the buffer to the screen
 			blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 			clear_bitmap(buffer);
 
+
+			// End Game Checks
+
+			if(key[KEY_ESC]) {
+				gameStatus = USER_EXIT;
+			}
+
+			if(playerShip->isDestroyed())
+			{
+				// if player dies, end game with lose scenario
+				gameStatus = LOSE;
+			}
+
+			if (enemyShips[0]->isDestroyed())
+			{
+				//If the ship has been destroyed delete it and increment enemiesDestroyed count
+
+				enemyShips.erase(enemyShips.begin());
+				enemiesDestroyed++;
+				gameStatus = spawnEnemy(enemyShips, enemiesDestroyed); /*Spawns new enemy and/or
+				returns whether the game should continue or has been won */
+
+				score += 10; // Award player points for ship destruction
+
+				bullets.clear(); // Destroy all bullets, to avoid lucky shots on new enemies.
+			}
+
+
+			//Timer and Delay iterations 
 			timer--;
 			delay++;
 		}
 		
+		// if delay has expired allow rotation and firing again.
 		if (delay > 30) 
 		{
 			canFire = true;
@@ -170,124 +195,86 @@ int Game::run()
 			delay = 0;
 		}
 	}
-
+	
+	//Destroy resources
+	destroy_bitmap(bg);
 	destroy_bitmap(buffer);
-	destroy_sample(fire);
+	destroy_sample(laser);
+	destroy_font(mainFont);
 
 	// Load Game Over Screen if the game ended with a win or lose, not a user exit.
 	if (gameStatus != USER_EXIT)
 	{
-		GameOverScreen *gameOver;
+		GameOverScreen *gameOver; // create a empty pointer for the game over object.
+
+		// Pass the results to game over screen so that it can display appropriate message.
 		if (gameStatus == WIN)
 		{
 			gameOver = new GameOverScreen(true,score);
-	
 		}
 		else
 		{
 			gameOver = new GameOverScreen(false,score);
 		}
 
-		gameOver->run();
+		gameOver->run(); // run the newly created game over screen
+		delete gameOver; // Clear memory
 	}
-	return 0;
+
+	return 0; // Return to menu
 }
 
-int Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips, int enemiesDestroyed)
-{
-	const int FACING_UP = 0;
-	const int FACING_RIGHT = 1;
-	const int FACING_DOWN = 2;
-	const int FACING_LEFT= 3;
 
-	if (enemiesDestroyed > 5)
-	{
-		return 2; //returns a win status to the game loop
-	}
 
-	enemyShips.push_back(new EnemyShip("enemyShip.bmp",350,200,0,5,5));
-
-	// Assign a random direction for the ship to spawn from
-	int direction = randomNumber(0,3);
-	xyPos pos;
-
-	int width = enemyShips[0]->getWidth();
-	int height = enemyShips[0]->getHeight();
-
-	switch (direction)
-	{
-	case FACING_UP:
-		pos.x = randomNumber(0, SCREEN_W - width);
-		pos.y = SCREEN_H;
-		break;
-	case FACING_RIGHT:
-		pos.x = 0 - width;
-		pos.y = randomNumber(0, SCREEN_H - height);
-		break;
-	case FACING_DOWN:
-		pos.x = randomNumber(0, SCREEN_W - width);
-		pos.y = 0 - width;
-		break;
-	case FACING_LEFT:
-		pos.x = SCREEN_W; 
-		pos.y = randomNumber(0, SCREEN_H - height);
-		break;
-	}
-
-	enemyShips[0]->setDirection(direction);
-	enemyShips[0]->teleport(pos.x,pos.y);
-
-	return 0;
-}
-
+//Player Input Functions
 void Game::checkKeyboard(Ship *playerShip)
 {
 	if (key[KEY_W] || key[KEY_UP])
 	{
-		//ship_y -= speed;
 		playerShip->movePos('U');
 	}
 	if (key[KEY_S] || key[KEY_DOWN])
 	{
-		//ship_y += speed;
 		playerShip->movePos('D');
 	}
+
 	if (key[KEY_A] || key[KEY_LEFT])
 	{
-		//ship_x -= speed;
 		playerShip->movePos('L');
 	}
 	if (key[KEY_D] || key[KEY_RIGHT])
 	{
-		//ship_x += speed;
 		playerShip->movePos('R');
 	}
 
 }
+
 bool Game::checkRotate(Ship *playerShip)
 {
-	//ROTATION (NEEDS WORK)
+	/* Checks if key pressed and sends a clockwise or anti-clockwise parameter
+	to the rotate function*/
+	
 	if (key[KEY_Q])
 	{
-		rotate4(false,playerShip);
 		//rotate left
-		return false;
+		rotate4(false,playerShip);
+		return false; // player rotated, start delay
 	}
 	if (key[KEY_E])
 	{
-		rotate4(true,playerShip);
 		//rotate right
-		return false;
+		rotate4(true,playerShip);
+		return false; // player rotated, start delay
 	}
 	
-	return true;
+	return true; // player didn't rotate, don't start delay
 }
 
 bool Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
 {
 	if (key[KEY_SPACE])
 	{
-		//remove oldest bullet after 5 other bullets are in memory
+		//remove oldest bullet after 7 other bullets are in memory
 		if (bullets.size() > 7){
 			bullets.erase(bullets.begin());
 		}
@@ -298,36 +285,68 @@ bool Game::checkFire(Ship *playerShip, std::vector<Bullet*> &bullets)
 
 		//Player loses a point, this is to try and deter bullet 'spamming'
 		score -= 1;
-		return false;
+		return false; //player fired so activate a delay
 	}
 	
-	return true;
+	return true; //player didn't fire so do not activate a delay
 }
 
-void Game::rotate4(bool clockwise, Ship *playerShip)
+
+//Collision Functions
+
+void Game::checkBoundries(Ship* shipObject)
 {
-	if (clockwise)
+	//Fetch the 4 corners of the ship
+	std::vector<Game::xyPos> shipPoints;
+	shipPoints.resize(4);
+	getFourCorners(shipObject, shipPoints);
+
+	
+	if (shipPoints[2].y < 0) // Check to see if it has gone past a boundary
 	{
-		if (playerShip->getDirection() == 3)
-		{
-			playerShip->setDirection(0);
-		}
-		else
-		{
-			playerShip->setDirection(true);
-		}
+		shipObject->teleport(shipObject->getX(),SCREEN_H - 1); //Teleport it opposite side of screen
 	}
-	else
+	else if (shipPoints[0].y > SCREEN_H)
 	{
-		if (playerShip->getDirection() == 0)
-		{
-			playerShip->setDirection(3);
-		}
-		else
-		{
-			playerShip->setDirection(false);
-		}
+		shipObject->teleport(shipObject->getX(),1 - shipObject->getHeight());
 	}
+
+	if (shipPoints[0].x > SCREEN_W)
+	{
+		shipObject->teleport(1 - shipObject->getWidth(),shipObject->getY());
+	}
+	else if (shipPoints[1].x < 0)
+	{
+		shipObject->teleport(SCREEN_W - 1,shipObject->getY());
+	}
+}
+
+bool Game::collisionTest(Entity *object1, Entity *object2)
+{
+	//Created a vector array to store the coordinates of the objects.
+	std::vector< std::vector<Game::xyPos> > objVec; //Multi dimensional vector 
+	objVec.resize(2);
+	objVec[0].resize(4);
+	objVec[1].resize(4);
+
+	// Get the coordinates for both objects
+	getFourCorners(object1, objVec[0]);
+	getFourCorners(object2, objVec[1]);
+
+	// X coordinate collision test
+	if (objVec[0][0].x < objVec[1][1].x && 
+		objVec[0][1].x > objVec[1][0].x )
+	{
+		// Y coordinate collision test
+		if (objVec[0][0].y < objVec[1][2].y &&
+			objVec[0][2].y > objVec[1][0].y)
+		{
+			return true; // collision occurred
+		}
+
+	}
+
+	return false; // collision did not occur
 }
 
 void Game::getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
@@ -375,61 +394,89 @@ void Game::getFourCorners(Entity *object, std::vector<Game::xyPos> &objVec)
 }
 
 
-// Refer to design documentation for more in depth details on this function
-bool Game::collisionTest(Entity *object1, Entity *object2)
-{
-	//Created a vector array to store the coordinates of the objects.
-	std::vector< std::vector<Game::xyPos> > objVec; //Multi dimensional vector 
-	objVec.resize(2);
-	objVec[0].resize(4);
-	objVec[1].resize(4);
-
-	getFourCorners(object1, objVec[0]);
-	getFourCorners(object2, objVec[1]);
-
-	// X coordinate collision test
-	if (objVec[0][0].x < objVec[1][1].x && 
-		objVec[0][1].x > objVec[1][0].x )
-	{
-		// Y coordinate collision test
-		if (objVec[0][0].y < objVec[1][2].y &&
-			objVec[0][2].y > objVec[1][0].y)
-		{
-			return true;
-		}
-
-	}
-
-	return false;
-
-}
+// Misc Functions
 
 int Game::randomNumber(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
 }
 
-void Game::checkBoundries(Ship* shipObject)
+void Game::rotate4(bool clockwise, Ship *playerShip)
 {
-	std::vector<Game::xyPos> shipPoints;
-	shipPoints.resize(4);
-	getFourCorners(shipObject, shipPoints);
+	/* Checks to see if the intended rotation will be over the 0-3 direction limit
+	if so it manually sets it to the opposite end of the scale.*/
+	if (clockwise)
+	{
+		if (playerShip->getDirection() == 3)
+		{
+			playerShip->setDirection(0);
+		}
+		else
+		{
+			playerShip->setDirection(true);
+		}
+	}
+	else
+	{
+		if (playerShip->getDirection() == 0)
+		{
+			playerShip->setDirection(3);
+		}
+		else
+		{
+			playerShip->setDirection(false);
+		}
+	}
+}
 
-	if (shipPoints[2].y < 0)
+int Game::spawnEnemy(std::vector<EnemyShip*> &enemyShips, int enemiesDestroyed)
+{
+	const int FACING_UP = 0;
+	const int FACING_RIGHT = 1;
+	const int FACING_DOWN = 2;
+	const int FACING_LEFT= 3;
+
+	//End game check
+	if (enemiesDestroyed >= 5)
 	{
-		shipObject->teleport(shipObject->getX(),SCREEN_H - 1);
-	}
-	else if (shipPoints[0].y > SCREEN_H)
-	{
-		shipObject->teleport(shipObject->getX(),1 - shipObject->getHeight());
+		return 2; //returns a win status to the game loop
 	}
 
-	if (shipPoints[0].x > SCREEN_W)
+	//Spawns a new ship off screen
+	enemyShips.push_back(new EnemyShip("enemyShip.bmp",641,481,0,5,5));
+
+	// Assign a random direction for the ship to spawn from
+	int direction = randomNumber(0,3);
+
+	//Create temp vars to minimize amount of calls and length of code
+	xyPos pos;
+	int width = enemyShips[0]->getWidth();
+	int height = enemyShips[0]->getHeight();
+
+	// Based on the random direction, set x & y to just off screen in a random position
+	switch (direction)
 	{
-		shipObject->teleport(1 - shipObject->getWidth(),shipObject->getY());
+	case FACING_UP:
+		pos.x = randomNumber(0, SCREEN_W - width);
+		pos.y = SCREEN_H;
+		break;
+	case FACING_RIGHT:
+		pos.x = 0 - width;
+		pos.y = randomNumber(0, SCREEN_H - height);
+		break;
+	case FACING_DOWN:
+		pos.x = randomNumber(0, SCREEN_W - width);
+		pos.y = 0 - width;
+		break;
+	case FACING_LEFT:
+		pos.x = SCREEN_W; 
+		pos.y = randomNumber(0, SCREEN_H - height);
+		break;
 	}
-	else if (shipPoints[1].x < 0)
-	{
-		shipObject->teleport(SCREEN_W - 1,shipObject->getY());
-	}
+
+	// Apply the newly generated rotation and position to the actual object
+	enemyShips[0]->setDirection(direction);
+	enemyShips[0]->teleport(pos.x,pos.y);
+
+	return 0; //Game should continue so returns 0
 }

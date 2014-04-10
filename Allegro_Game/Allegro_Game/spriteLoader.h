@@ -12,11 +12,13 @@ class SpriteLoader
 	// Will be often combined with other classes (Multiple Inheritance)
 
 protected:
-	BITMAP* sprite;
+	BITMAP* sprite; // Stores loaded sprite
 
 public:
 	SpriteLoader(std::string);
+	~SpriteLoader(); //destroys loaded bitmaps
 
+	// Setters & Getters for the sprite protected variable
 	BITMAP* getSprite();
 	virtual void setSprite(std::string);
 };

@@ -2,21 +2,22 @@
 #include <allegro.h>
 #include "MenuScreen.h"
 
-extern volatile int timer;
+extern volatile int timer; //Global timer between files, as Allegro only allows timers in main
 
 int MenuScreen::run()
 {
+	// LOAD RESOURCES:
 	BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
 	BITMAP* bg = load_bitmap("menuBackground.bmp",NULL);
 	BITMAP* logo = load_bitmap("logo.bmp",NULL);
-	show_os_cursor(MOUSE_CURSOR_ARROW);
-
+	
+	//Button BITMAP loading
 	std::vector< std::vector<BITMAP*> > buttons;
+	// used vector to make easier to store and delete;
 	buttons.resize(2);
 	buttons[0].resize(4);
 	buttons[1].resize(4);
 	
-	//Could be re-factored into for loop
 	buttons[0][0] = load_bitmap("button1.bmp",NULL);
 	buttons[0][1] = load_bitmap("button2.bmp",NULL);
 	buttons[0][2] = load_bitmap("button3.bmp",NULL);
@@ -27,30 +28,30 @@ int MenuScreen::run()
 	buttons[1][2] = load_bitmap("button3Hover.bmp",NULL);
 	buttons[1][3] = load_bitmap("button4Hover.bmp",NULL);
 
-	int menuResult = -1;
+	int menuResult = -1; // Stores what int will be returned (Which button clicked)
 
-	bool endMenu = false;
-
-	while(!endMenu)
+	while(menuResult == -1)
 	{
 		while(timer)
 		{
-
+			// Draw the background assets
 			draw_sprite(buffer, bg, 0, 0);
-
 			draw_sprite(buffer,logo,96,20);
 
+			//Collision tests for all the buttons
 			if (mouse_y > 150 && mouse_y < 200 && mouse_x > 220 && mouse_x < 420)
 			{
+				//Show hover sprite if mouse is inside button bounding box.
 				draw_sprite(buffer, buttons[1][0], 220, 150);
 				if (mouse_b & 1)
 				{
+					//If clicked set the desired return value and end loop.
 					menuResult = 1;
-					endMenu = true;
 				}
 			}
 			else
 			{
+				//Else show normal button sprite
 				draw_sprite(buffer, buttons[0][0], 220, 150);
 			}
 
@@ -60,7 +61,6 @@ int MenuScreen::run()
 				if (mouse_b & 1)
 				{
 					menuResult = 2;
-					endMenu = true;
 				}
 			}
 			else
@@ -74,7 +74,6 @@ int MenuScreen::run()
 				if (mouse_b & 1)
 				{
 					menuResult = 3;
-					endMenu = true;
 				}
 			}
 			else
@@ -88,7 +87,6 @@ int MenuScreen::run()
 				if (mouse_b & 1)
 				{
 					menuResult = 0;
-					endMenu = true;
 				}
 			}
 			else
@@ -97,16 +95,16 @@ int MenuScreen::run()
 			}
 		
 
+
 			blit(buffer, screen, 0, 0, 0, 0, buffer->w, buffer->h);
 			clear_bitmap(buffer);
 
 			timer--;
-			//rect(buffer, thirdOfScreen, 200, thirdOfScreen * 2, 250,makecol(255,255,255));
-			//if(mouse_x)
 		}
 	}
 
-	// Destroy all menu bitmaps
+
+	// Destroy all bitmaps
 	destroy_bitmap(bg);
 	destroy_bitmap(logo);
 	destroy_bitmap(buffer);

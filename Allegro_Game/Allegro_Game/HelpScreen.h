@@ -7,10 +7,8 @@
 
 class HelpScreen : public ScreenState
 {
-private:
-
 public:
-	virtual int run();
+	virtual int run(); //Redefines pure virtual function of parent
 };
 
 #endif

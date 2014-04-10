@@ -6,13 +6,7 @@ EnemyShip::EnemyShip(std::string path, int startX, int startY,
 	int direction, int startHealth, int maxSpeed)
 	: Ship(path,startX,startY,direction,startHealth,maxSpeed)
 {
-	//REMOVE
-	//Ship::speed = maxSpeed;
-	//Entity::direction = 0;
-	//recalculateTurretPos();
-
-	//width = sprite->w;
-	//height = sprite->h;
+	// Only here for visual aid, as it would run the parents (Ship) constructor anyway.
 }
 
 void EnemyShip::update()

@@ -11,7 +11,8 @@ private:
 	int speed;
 public:
 	Bullet(int, int, int, int, int);
-	void update();
+
+	void update(); // Updates the bullets position
 };
 
 #endif

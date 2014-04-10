@@ -8,14 +8,9 @@
 
 class EnemyShip : public Ship
 {
-private:
-
 public:
 	EnemyShip(std::string,int,int,int,int,int);
-	//~EnemyShip();
-
-	
-	void update();
+	void update(); //Make the ship move forward one (Basic AI)
 };
 
 #endif

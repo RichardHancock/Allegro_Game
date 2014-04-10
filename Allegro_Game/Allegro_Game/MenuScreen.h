@@ -8,7 +8,7 @@
 class MenuScreen : public ScreenState
 {
 public:
-	virtual int run(); 
+	virtual int run(); //Redefines pure virtual function of parent
 };
 
 #endif

@@ -12,7 +12,12 @@ SpriteLoader::SpriteLoader(std::string path)
 {
 	setSprite(path);
 }
-
+//Destructor
+SpriteLoader::~SpriteLoader()
+{
+	//When object is destroyed, delete its sprite/BITMAP.
+	destroy_bitmap(sprite);
+}
 
 //Methods
 BITMAP* SpriteLoader::getSprite()

@@ -56,37 +56,37 @@
     <ClInclude Include="bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="spriteLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HelpScreen.h">
+    <ClInclude Include="CreditsScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyShip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CreditsScreen.h">
+    <ClInclude Include="spriteLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameOverScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ship.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,6 +122,21 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="myanmarFont.pcx">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="enemyShip.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="gameBackground.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="laser1.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="logo.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="menuBackground.bmp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

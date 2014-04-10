@@ -8,21 +8,34 @@ Entity::Entity(int startX, int startY, int startRotation, int startHealth)
 	y = startY;
 	direction = startRotation;
 	health = startHealth;
-	destroyed = false; 
+	destroyed = false; // Default state, until destruction
 
 	isCircleVar = false; //will be overridden when needed
 }
-Entity::~Entity()
-{
 
+
+// Movement functions
+void Entity::teleport(int newX, int newY)
+{
+	x = newX;
+	y = newY;
+}
+
+
+// Rotation functions
+int Entity::getDirection()
+{
+	return direction;
 }
 
 void Entity::setDirection(int rotation)
 {
 	direction = rotation;
 }
+
 void Entity::setDirection(bool increment) //if true increment direction, if false take 1 away 
 {
+	// Basically means rotate clockwise or anti-clockwise
 	if (increment)
 	{
 		direction++;
@@ -33,49 +46,8 @@ void Entity::setDirection(bool increment) //if true increment direction, if fals
 	}
 }
 
-void Entity::movePos(int adjustX, int adjustY)
-{
-	switch(direction)
-	{
-	case 0:
-		x += adjustX;
-		y += adjustY;
-		break;
-	case 1:
-		x += adjustY;
-		y += adjustX;
-		break;
-	case 2:
-		x -= adjustY;
-		y += adjustX;
-		break;
-	case 3:
-		x -= adjustX;
-		y -= adjustY;
-		break;
-	}
-}
-int Entity::hit(int damage)
-{
-	health -= damage;
 
-	if (health <= 0)
-	{
-		destroyed = true;
-	}
-
-	return health;
-}
-
-
-int Entity::getHealth()
-{
-	return health;
-}
-int Entity::getDirection()
-{
-	return direction;
-}
+//Mixed Getter Functions
 int Entity::getX()
 {
 	return x;
@@ -99,13 +71,28 @@ bool Entity::isCircle()
 	return isCircleVar;
 }
 
+
+// Health Functions
+int Entity::hit(int damage)
+{
+	health -= damage;
+
+	// Check if object is dead and set var accordingly
+	if (health <= 0)
+	{
+		destroyed = true;
+	}
+
+	return health; //returns the health for possible future health bar addition.
+}
+
+int Entity::getHealth()
+{
+	return health;
+}
+
 bool Entity::isDestroyed()
 {
 	return destroyed;
 }
 
-void Entity::teleport(int newX, int newY)
-{
-	x = newX;
-	y = newY;
-}

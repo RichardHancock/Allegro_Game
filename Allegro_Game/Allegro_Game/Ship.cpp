@@ -8,18 +8,18 @@ Ship::Ship(std::string path, int startX, int startY, int direction,
 	int startHealth, int maxSpeed) 
 	: Entity(startX,startY,direction,startHealth), SpriteLoader(path)
 {
+	recalculateTurretPos(); //Initial calculation
+
 	speed = maxSpeed;
-	recalculateTurretPos();
 
 	width = sprite->w;
 	height = sprite->h;
 }
-Ship::~Ship()
-{
-	destroy_bitmap(sprite);
-}
+
+
 void Ship::recalculateTurretPos()
 {
+	// Finds the middle front of the ship, so that bullet firing looks natural
 	switch (direction)
 	{
 	case FACING_UP:
@@ -41,6 +41,23 @@ void Ship::recalculateTurretPos()
 	}
 }
 
+
+// Mixed Getter Functions
+int Ship::getSpeed()
+{
+	return speed;
+}
+
+int Ship::getTurretX()
+{
+	return turretX;
+}
+int Ship::getTurretY()
+{
+	return turretY;
+}
+
+
 void Ship::setDirection(int rotation)
 {
 	direction = rotation;
@@ -56,14 +73,20 @@ void Ship::setDirection(bool increment) //if true increment direction, if false 
 	{
 		direction--;
 	}
+
 	recalculateTurretPos();
 }
 
 
 void Ship::movePos(char movementDirection)
 {
-	// There is probably a more efficient way of trying to achieve this, but after several failed attempts
-	// this is the best implementation I could get working
+
+	/*Moves based on direction and char input
+
+	U = up, D = down, L = left, R = right
+
+	There is probably a more efficient way of implementing this, but after several attempts
+	this is the best implementation I could get working.*/
 
 	if(movementDirection == 'U')
 	{
@@ -141,33 +164,7 @@ void Ship::movePos(char movementDirection)
 
 	recalculateTurretPos();
 }
-int Ship::getSpeed()
-{
-	return speed;
-}
 
-
-int Ship::getTurretX()
-{
-	return turretX;
-}
-int Ship::getTurretY()
-{
-	return turretY;
-}
-
-
-/*int Entity::hit(int damage)
-{
-	health -= damage;
-
-	return health;
-}*/
-/*
-BITMAP * Ship::getSprite()
-{
-	return sprite;
-}*/
 
 void Ship::setSprite(std::string path)
 {

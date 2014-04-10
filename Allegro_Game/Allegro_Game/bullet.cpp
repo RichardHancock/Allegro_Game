@@ -4,20 +4,23 @@
 Bullet::Bullet(int startX, int startY, int startRotation, int startHealth, int maxSpeed) : 
 Entity(startX,startY,startRotation,startHealth)
 {
-	//x = startX;
-	//y = startY;
-	//direction = startRotation;
-	//health = startHealth;
+	// Since this class doesn't have a sprite, the spriteLoader is not inherited.
+
+
 	speed = maxSpeed;
 
-	//Because this object doesn't have a sprite I have to manually input width and height.
+	//Because this class doesn't have a sprite I have to manually input width and height.
 	height = 6;
 	width = 6;
-	isCircleVar = true;
+
+	//This being true allows the collision functions to accurately map the bounding box
+	isCircleVar = true; 
 }
 
 void Bullet::update()
 {
+	// Moves based on inputted direction (ships direction) 
+
 	switch (direction)
 	{
 	case 0:
@@ -33,25 +36,5 @@ void Bullet::update()
 		x -= speed;
 		break;
 	}
-	//fire in ships direction 
+	
 }
-/*void Bullet::movePos(int moveX, int moveY)
-{
-	x += moveX;
-	y += moveY;
-}
-
-void Bullet::rotate(int rotation)
-{
-
-}
-
-int Bullet::getX()
-{
-	return x;
-}
-
-int Bullet::getY()
-{
-	return y;
-}*/
