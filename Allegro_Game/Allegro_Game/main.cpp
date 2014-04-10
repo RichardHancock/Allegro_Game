@@ -70,6 +70,7 @@ int main()
 		{
 		case 0:
 			// Exit
+			remove_int(timer_increment);
 			return 0;
 			break;
 		case 1:
@@ -88,5 +89,6 @@ int main()
 
 		//If an exit hasn't been requested, the game will restart the menu.
 	}
+
 }
 END_OF_MAIN();
